@@ -8,8 +8,10 @@ namespace AutoStonks.API.Models
     public class Generation
     {
         public int Id { get; set; }
-        public int Name { get; set; }
+        public string Name { get; set; }
         public int ModelId { get; set; }
         public Model Model { get; set; }
+        public List<Package> Versions { get; set; }
+        public List<AdvertDetails> AdvertDetails { get; set; }
     }
 }

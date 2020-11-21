@@ -1,3 +1,6 @@
+using AutoMapper;
+using AutoStonks.API.Services.BrandService;
+using AutoStonks.API.Services.UserService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,10 +30,13 @@ namespace AutoStonks.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddDbContext<DataContext>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("AutoStonksDb"));
-            });
+            services.AddAutoMapper(typeof(Startup));
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IBrandService, BrandService>();
+            //services.AddDbContext<DataContext>(options =>
+            //{
+            //    options.UseSqlServer(Configuration.GetConnectionString("Data Source=DESKTOP-504HSN9\\BAZYDANYCH;Initial Catalog=AutoStonksDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

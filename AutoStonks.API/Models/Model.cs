@@ -11,6 +11,7 @@ namespace AutoStonks.API.Models
         public string Name { get; set; }
         public Brand Brand { get; set; }
         public int BrandId { get; set; }
-        public Generation Generation { get; set; }
+//        public Generation Generation { get; set; }
+        public List<Generation> Generations { get; set; }
     }
 }

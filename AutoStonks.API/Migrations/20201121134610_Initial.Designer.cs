@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoStonks.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201116201718_Generation")]
-    partial class Generation
+    [Migration("20201121134610_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -64,11 +64,8 @@ namespace AutoStonks.API.Migrations
                     b.Property<int>("AdvertId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("AutomaticTransmisson")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("CarProductionDate")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("CarProductionDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Condition")
                         .HasColumnType("int");
@@ -80,6 +77,9 @@ namespace AutoStonks.API.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Fuel")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GenerationId")
                         .HasColumnType("int");
 
                     b.Property<bool>("HasBeenCrashed")
@@ -97,6 +97,9 @@ namespace AutoStonks.API.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
+                    b.Property<int>("TransmissionType")
+                        .HasColumnType("int");
+
                     b.Property<int>("VisitCount")
                         .HasColumnType("int");
 
@@ -104,6 +107,8 @@ namespace AutoStonks.API.Migrations
 
                     b.HasIndex("AdvertId")
                         .IsUnique();
+
+                    b.HasIndex("GenerationId");
 
                     b.ToTable("AdvertDetails");
                 });
@@ -163,13 +168,12 @@ namespace AutoStonks.API.Migrations
                     b.Property<int>("ModelId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Name")
-                        .HasColumnType("int");
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ModelId")
-                        .IsUnique();
+                    b.HasIndex("ModelId");
 
                     b.ToTable("Generations");
                 });
@@ -189,10 +193,29 @@ namespace AutoStonks.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BrandId")
-                        .IsUnique();
+                    b.HasIndex("BrandId");
 
                     b.ToTable("Models");
+                });
+
+            modelBuilder.Entity("AutoStonks.API.Models.Package", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("GenerationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GenerationId");
+
+                    b.ToTable("Packages");
                 });
 
             modelBuilder.Entity("AutoStonks.API.Models.Photo", b =>
@@ -222,20 +245,29 @@ namespace AutoStonks.API.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("emailAddress")
+                    b.Property<string>("EmailAddress")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("password")
+                    b.Property<bool>("EnforcePasswordChange")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("LastPasswordChange")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("role")
+                    b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("nvarchar(1)");
 
-                    b.Property<string>("salt")
+                    b.Property<string>("Salt")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("username")
+                    b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -266,7 +298,15 @@ namespace AutoStonks.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("AutoStonks.API.Models.Generation", "Generation")
+                        .WithMany("AdvertDetails")
+                        .HasForeignKey("GenerationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Advert");
+
+                    b.Navigation("Generation");
                 });
 
             modelBuilder.Entity("AutoStonks.API.Models.AdvertEquipment", b =>
@@ -291,8 +331,8 @@ namespace AutoStonks.API.Migrations
             modelBuilder.Entity("AutoStonks.API.Models.Generation", b =>
                 {
                     b.HasOne("AutoStonks.API.Models.Model", "Model")
-                        .WithOne("Generation")
-                        .HasForeignKey("AutoStonks.API.Models.Generation", "ModelId")
+                        .WithMany("Generations")
+                        .HasForeignKey("ModelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -302,12 +342,23 @@ namespace AutoStonks.API.Migrations
             modelBuilder.Entity("AutoStonks.API.Models.Model", b =>
                 {
                     b.HasOne("AutoStonks.API.Models.Brand", "Brand")
-                        .WithOne("Model")
-                        .HasForeignKey("AutoStonks.API.Models.Model", "BrandId")
+                        .WithMany("Models")
+                        .HasForeignKey("BrandId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Brand");
+                });
+
+            modelBuilder.Entity("AutoStonks.API.Models.Package", b =>
+                {
+                    b.HasOne("AutoStonks.API.Models.Generation", "Generation")
+                        .WithMany("Versions")
+                        .HasForeignKey("GenerationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Generation");
                 });
 
             modelBuilder.Entity("AutoStonks.API.Models.Photo", b =>
@@ -353,7 +404,7 @@ namespace AutoStonks.API.Migrations
 
             modelBuilder.Entity("AutoStonks.API.Models.Brand", b =>
                 {
-                    b.Navigation("Model");
+                    b.Navigation("Models");
                 });
 
             modelBuilder.Entity("AutoStonks.API.Models.Equipment", b =>
@@ -361,9 +412,16 @@ namespace AutoStonks.API.Migrations
                     b.Navigation("AdvertEquipments");
                 });
 
+            modelBuilder.Entity("AutoStonks.API.Models.Generation", b =>
+                {
+                    b.Navigation("AdvertDetails");
+
+                    b.Navigation("Versions");
+                });
+
             modelBuilder.Entity("AutoStonks.API.Models.Model", b =>
                 {
-                    b.Navigation("Generation");
+                    b.Navigation("Generations");
                 });
 
             modelBuilder.Entity("AutoStonks.API.Models.User", b =>
