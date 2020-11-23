@@ -10,16 +10,19 @@ namespace AutoStonks.API
     public class DataContext : DbContext
     {
         public DbSet<Advert> Adverts { get; set; }
-        public DbSet<AdvertDetails> AdvertDetails { get; set; }
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Equipment> Equipment { get; set; }
         public DbSet<AdvertEquipment> AdvertEquipment { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<UserAdvert> UserAdverts { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Model> Models { get; set; }
         public DbSet<Generation> Generations { get; set; }
         public DbSet<Package> Packages { get; set; }
+        public DbSet<Payment> Payments { get; set; }
+
+        public DataContext(DbContextOptions options) : base(options)
+        {
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -34,37 +37,14 @@ namespace AutoStonks.API
                 .HasOne(ae => ae.Equipment)
                 .WithMany(e => e.AdvertEquipments)
                 .HasForeignKey(ae => ae.EquipmentId);
-
-            //Many-To-Many --> UserAdvert
-            modelBuilder.Entity<UserAdvert>()
-                .HasKey(ua => new { ua.AdvertId, ua.UserId });
-            modelBuilder.Entity<UserAdvert>()
-                .HasOne(ua => ua.Advert)
-                .WithMany(a => a.UserAdverts)
-                .HasForeignKey(ua => ua.AdvertId);
-            modelBuilder.Entity<UserAdvert>()
-                .HasOne(ua => ua.User)
-                .WithMany(u => u.UserAdverts)
-                .HasForeignKey(ua => ua.UserId);
-
-            //One-To-Many --> Brand --> Model
-            //modelBuilder.Entity<Brand>()
-            //    .HasMany(b => b.Models)
-            //    .WithOne(m => m.Brand);
-            //    .HasForeignKey(m => m.BrandId);
-
-            ////One-To-Many --> Model --> Generation
-            //modelBuilder.Entity<Model>()
-            //    .HasMany(m => m.Generations)
-            //    .WithOne(g => g.Model);
-            //    .HasForeignKey(g => g.ModelId);
         }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-504HSN9\\BAZYDANYCH;Initial Catalog=AutoStonksDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
 
-            base.OnConfiguring(optionsBuilder);
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer("Data Source=DESKTOP-504HSN9\\BAZYDANYCH;Initial Catalog=AutoStonksDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+
+        //    base.OnConfiguring(optionsBuilder);
+        //}
 
     }
 }

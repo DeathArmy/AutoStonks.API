@@ -12,6 +12,5 @@ namespace AutoStonks.API.Models
         public int ModelId { get; set; }
         public Model Model { get; set; }
         public List<Package> Versions { get; set; }
-        public List<AdvertDetails> AdvertDetails { get; set; }
     }
 }

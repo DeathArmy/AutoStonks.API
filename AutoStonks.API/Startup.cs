@@ -33,10 +33,10 @@ namespace AutoStonks.API
             services.AddAutoMapper(typeof(Startup));
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IBrandService, BrandService>();
-            //services.AddDbContext<DataContext>(options =>
-            //{
-            //    options.UseSqlServer(Configuration.GetConnectionString("Data Source=DESKTOP-504HSN9\\BAZYDANYCH;Initial Catalog=AutoStonksDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
-            //});
+            services.AddDbContext<DataContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("AutoStonksDb"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

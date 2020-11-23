@@ -11,19 +11,18 @@ namespace AutoStonks.API.Services.Equipment
     public class EquipmentService : IEquipmentService
     {
         private readonly IMapper _mapper;
-        public EquipmentService(IMapper mapper)
+        DataContext _context;
+        public EquipmentService(IMapper mapper, DataContext context)
         {
             _mapper = mapper;
+            _context = context;
         }
         public async Task<ServiceResponse<List<GetEquipmentDto>>> GetEquipment(GetEquipmentDto brand)
         {
             ServiceResponse<List<GetEquipmentDto>> serviceResponse = new ServiceResponse<List<GetEquipmentDto>>();
             try
             {
-                using var _context = new DataContext();
-                {
                     serviceResponse.Data = _context.Equipment.ToList().Select(e => _mapper.Map<GetEquipmentDto>(e)).ToList();
-                }
             }
             catch (Exception ex)
             {

@@ -11,21 +11,20 @@ namespace AutoStonks.API.Services.BrandService
 {
     public class BrandService : IBrandService
     {
+        DataContext _context;
         private readonly IMapper _mapper;
-        public BrandService(IMapper mapper)
+        public BrandService(IMapper mapper, DataContext context)
         {
             _mapper = mapper;
+            _context = context;
         }
         public async Task<ServiceResponse<List<Brand>>> AddBrand(AddBrandDto brand)
         {
             ServiceResponse<List<Brand>> serviceResponse = new ServiceResponse<List<Brand>>();
             try
             {
-                using var _context = new DataContext();
-                {
                     _context.Add(brand);
                     serviceResponse.Data = _context.Brands.ToList();
-                }
             }
             catch (Exception ex)
             {
@@ -40,12 +39,9 @@ namespace AutoStonks.API.Services.BrandService
             ServiceResponse<List<Brand>> serviceResponse = new ServiceResponse<List<Brand>>();
             try
             {
-                using var _context = new DataContext();
-                {
                     var entity = _context.Brands.FirstOrDefault(b => b.Id == brand.Id);
                     _context.Brands.Remove(entity);
                     serviceResponse.Data = _context.Brands.ToList();
-                }
             }
             catch (Exception ex)
             {
@@ -60,10 +56,7 @@ namespace AutoStonks.API.Services.BrandService
             ServiceResponse<List<GetBrandDto>> serviceResponse = new ServiceResponse<List<GetBrandDto>>();
             try
             {
-                using var _context = new DataContext();
-                {
                     serviceResponse.Data = _context.Brands.ToList().Select(b => _mapper.Map<GetBrandDto>(b)).ToList();
-                }
             }
             catch (Exception ex)
             {
@@ -78,13 +71,10 @@ namespace AutoStonks.API.Services.BrandService
             ServiceResponse<List<Brand>> serviceResponse = new ServiceResponse<List<Brand>>();
             try
             {
-                using var _context = new DataContext();
-                {
                     var entity = _context.Brands.FirstOrDefault(b => b.Id == brand.Id);
                     entity.Name = brand.Name;
                     _context.SaveChanges();
                     serviceResponse.Data = _context.Brands.ToList();
-                }
             }
             catch (Exception ex)
             {

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoStonks.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201121134610_Initial")]
+    [Migration("20201123185841_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,53 +28,29 @@ namespace AutoStonks.API.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<DateTime>("CreationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("FirstRegistrationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("ModificationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PlateNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("State")
-                        .HasColumnType("int");
-
-                    b.Property<string>("VIN")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Adverts");
-                });
-
-            modelBuilder.Entity("AutoStonks.API.Models.AdvertDetails", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<int>("AdvertId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CarProductionDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Condition")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Displacement")
                         .HasColumnType("int");
 
                     b.Property<int>("DriveType")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("ExpiryDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FirstRegistrationDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Fuel")
                         .HasColumnType("int");
@@ -88,29 +64,46 @@ namespace AutoStonks.API.Migrations
                     b.Property<int>("Horsepower")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsPromoted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Mileage")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("ModificationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PlateNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
+                    b.Property<int>("State")
+                        .HasColumnType("int");
+
                     b.Property<int>("TransmissionType")
                         .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("VIN")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("VisitCount")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AdvertId")
-                        .IsUnique();
-
                     b.HasIndex("GenerationId");
 
-                    b.ToTable("AdvertDetails");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Adverts");
                 });
 
             modelBuilder.Entity("AutoStonks.API.Models.AdvertEquipment", b =>
@@ -218,6 +211,35 @@ namespace AutoStonks.API.Migrations
                     b.ToTable("Packages");
                 });
 
+            modelBuilder.Entity("AutoStonks.API.Models.Payment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("AdvertId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DurationInDays")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("PaymentInitiation")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("PaymentTermination")
+                        .HasColumnType("datetime2");
+
+                    b.Property<float>("Price")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AdvertId");
+
+                    b.ToTable("Payments");
+                });
+
             modelBuilder.Entity("AutoStonks.API.Models.Photo", b =>
                 {
                     b.Property<int>("Id")
@@ -275,38 +297,23 @@ namespace AutoStonks.API.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("AutoStonks.API.Models.UserAdvert", b =>
+            modelBuilder.Entity("AutoStonks.API.Models.Advert", b =>
                 {
-                    b.Property<int>("AdvertId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AdvertId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserAdverts");
-                });
-
-            modelBuilder.Entity("AutoStonks.API.Models.AdvertDetails", b =>
-                {
-                    b.HasOne("AutoStonks.API.Models.Advert", "Advert")
-                        .WithOne("AdvertDetails")
-                        .HasForeignKey("AutoStonks.API.Models.AdvertDetails", "AdvertId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("AutoStonks.API.Models.Generation", "Generation")
-                        .WithMany("AdvertDetails")
+                        .WithMany()
                         .HasForeignKey("GenerationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Advert");
+                    b.HasOne("AutoStonks.API.Models.User", "User")
+                        .WithMany("Adverts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Generation");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("AutoStonks.API.Models.AdvertEquipment", b =>
@@ -361,6 +368,17 @@ namespace AutoStonks.API.Migrations
                     b.Navigation("Generation");
                 });
 
+            modelBuilder.Entity("AutoStonks.API.Models.Payment", b =>
+                {
+                    b.HasOne("AutoStonks.API.Models.Advert", "Advert")
+                        .WithMany("Payments")
+                        .HasForeignKey("AdvertId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Advert");
+                });
+
             modelBuilder.Entity("AutoStonks.API.Models.Photo", b =>
                 {
                     b.HasOne("AutoStonks.API.Models.Advert", "Advert")
@@ -372,34 +390,13 @@ namespace AutoStonks.API.Migrations
                     b.Navigation("Advert");
                 });
 
-            modelBuilder.Entity("AutoStonks.API.Models.UserAdvert", b =>
-                {
-                    b.HasOne("AutoStonks.API.Models.Advert", "Advert")
-                        .WithMany("UserAdverts")
-                        .HasForeignKey("AdvertId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AutoStonks.API.Models.User", "User")
-                        .WithMany("UserAdverts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Advert");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("AutoStonks.API.Models.Advert", b =>
                 {
-                    b.Navigation("AdvertDetails");
-
                     b.Navigation("AdvertEquipments");
 
-                    b.Navigation("Photos");
+                    b.Navigation("Payments");
 
-                    b.Navigation("UserAdverts");
+                    b.Navigation("Photos");
                 });
 
             modelBuilder.Entity("AutoStonks.API.Models.Brand", b =>
@@ -414,8 +411,6 @@ namespace AutoStonks.API.Migrations
 
             modelBuilder.Entity("AutoStonks.API.Models.Generation", b =>
                 {
-                    b.Navigation("AdvertDetails");
-
                     b.Navigation("Versions");
                 });
 
@@ -426,7 +421,7 @@ namespace AutoStonks.API.Migrations
 
             modelBuilder.Entity("AutoStonks.API.Models.User", b =>
                 {
-                    b.Navigation("UserAdverts");
+                    b.Navigation("Adverts");
                 });
 #pragma warning restore 612, 618
         }
