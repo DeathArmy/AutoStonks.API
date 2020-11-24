@@ -18,6 +18,14 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Dtos\Advert\" />
+    <Folder Include="Dtos\Generation\" />
+    <Folder Include="Dtos\Model\" />
+    <Folder Include="Dtos\AdverEquipment\" />
+    <Folder Include="Dtos\Payment\" />
+  </ItemGroup>
+
   <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 

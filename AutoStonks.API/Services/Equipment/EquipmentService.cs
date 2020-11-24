@@ -17,7 +17,7 @@ namespace AutoStonks.API.Services.Equipment
             _mapper = mapper;
             _context = context;
         }
-        public async Task<ServiceResponse<List<GetEquipmentDto>>> GetEquipment(GetEquipmentDto brand)
+        public async Task<ServiceResponse<List<GetEquipmentDto>>> GetEquipment()
         {
             ServiceResponse<List<GetEquipmentDto>> serviceResponse = new ServiceResponse<List<GetEquipmentDto>>();
             try

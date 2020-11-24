@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AutoStonks.API.Models
+namespace AutoStonks.API.Dtos.User
 {
-    public class Brand
+    public class DeleteUserDto
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public List<Model> Models { get; set; }
+        public bool IsActive { get; set; } = true;
     }
 }

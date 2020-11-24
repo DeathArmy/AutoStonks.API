@@ -15,7 +15,10 @@ namespace AutoStonks.API
         public AutoMapperProfile()
         {
             CreateMap<User, GetUserDto>();
+            CreateMap<User, GetUsersDto>();
+            CreateMap<User, DeleteUserDto>();
             CreateMap<AddUserDto, User>();
+            CreateMap<GetUserDto, User>();
             CreateMap<UpdateUserDto, User>();
             CreateMap<Brand, GetBrandDto>();
             CreateMap<AddBrandDto, Brand>();

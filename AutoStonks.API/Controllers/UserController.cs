@@ -19,33 +19,58 @@ namespace AutoStonks.API.Controllers
             _userService = userService;
         }
 
-    [HttpGet("GetAll")]
-    public async Task<IActionResult> Get()
-    {
-        return Ok(await _userService.GetAllUsers());
-    }
-
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetSpecific(int id)
-    {
-        return Ok(await _userService.GetUserById(id));
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> AddUser(AddUserDto newUser)
-    {
-        return Ok(await _userService.AddUser(newUser));
-    }
-
-    [HttpPut]
-    public async Task<IActionResult> UpdateUser(UpdateUserDto updateUser)
-    {
-        ServiceResponse<GetUserDto> response = await _userService.UpdateUser(updateUser);
-        if (response.Data == null)
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> Get()
+        {
+            ServiceResponse<List<GetUsersDto>> response = await _userService.GetAllUsers();
+            if (response.Data == null)
             {
                 return NotFound(response);
             }
-        return Ok(response);
-    }
+            return Ok(response);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetSpecific(int id)
+        {
+            ServiceResponse<GetUserDto> response = await _userService.GetUserById(id);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddUser(AddUserDto newUser)
+        {
+            ServiceResponse<GetUserDto> response = await _userService.AddUser(newUser);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateUser(UpdateUserDto updateUser)
+        {
+            ServiceResponse<GetUserDto> response = await _userService.UpdateUser(updateUser);
+            if (response.Data == null)
+                {
+                    return NotFound(response);
+                }
+            return Ok(response);
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            ServiceResponse<DeleteUserDto> response = await _userService.DeleteUser(id);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
     }
 }

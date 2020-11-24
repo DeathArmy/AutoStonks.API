@@ -10,36 +10,14 @@ namespace AutoStonks.API.Services.UserService
 {
     public class UserService : IUserService
     {
-        //private static List<User> users = new List<User> { new User(), new User { Id = 1, username = "Adam" } };
-        //private readonly IMapper _mapper;
-        //public UserService(IMapper mapper)
-        //{
-        //    _mapper = mapper;
-        //}
+        DataContext _context;
+        private readonly IMapper _mapper;
+        public UserService(IMapper mapper, DataContext context)
+        {
+            _mapper = mapper;
+            _context = context;
+        }
 
-        //public async Task<ServiceResponse<List<GetUserDto>>> AddUser(AddUserDto newUser)
-        //{
-        //    ServiceResponse<List<GetUserDto>> serviceResponse = new ServiceResponse<List<GetUserDto>>();
-        //    User user = _mapper.Map<User>(newUser);
-        //    user.Id = users.Max(c => c.Id) + 1;
-        //    users.Add(user);
-        //    serviceResponse.Data = users.Select(c => _mapper.Map<GetUserDto>(c)).ToList();
-        //    return serviceResponse;
-        //}
-
-        //public async Task<ServiceResponse<List<GetUserDto>>> GetAllUsers()
-        //{
-        //    ServiceResponse<List<GetUserDto>> serviceResponse = new ServiceResponse<List<GetUserDto>>();
-        //    serviceResponse.Data = (users.Select(c => _mapper.Map<GetUserDto>(c))).ToList();
-        //    return serviceResponse;
-        //}
-
-        //public async Task<ServiceResponse<GetUserDto>> GetUserById(int id)
-        //{
-        //    ServiceResponse<GetUserDto> serviceResponse = new ServiceResponse<GetUserDto>();
-        //    serviceResponse.Data = _mapper.Map<GetUserDto>(users.FirstOrDefault(u => u.Id == id));
-        //    return serviceResponse;
-        //}
 
         //public async Task<ServiceResponse<GetUserDto>> UpdateUser(UpdateUserDto updateCharacter)
         //{
@@ -59,24 +37,102 @@ namespace AutoStonks.API.Services.UserService
         //    }
         //    return serviceResponse;
         //}
-        public Task<ServiceResponse<List<GetUserDto>>> AddUser(AddUserDto newUser)
+        public async Task<ServiceResponse<GetUserDto>> AddUser(AddUserDto newUser)
         {
-            throw new NotImplementedException();
+            ServiceResponse<GetUserDto> serviceResponse = new ServiceResponse<GetUserDto>();
+            GetUserDto user = new GetUserDto();
+            try
+            {
+                user.Username = newUser.Username;
+                user.Password = newUser.Password;
+                user.Salt = newUser.Salt;
+                user.EmailAddress = newUser.EmailAddress;
+                user.LastPasswordChange = newUser.LastPasswordChange;
+                _context.Users.Add(_mapper.Map<User>(user));
+                _context.SaveChanges();
+                serviceResponse.Data = _mapper.Map<GetUserDto>(_context.Users.FirstOrDefault(u => u.Username == newUser.Username));
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+            return serviceResponse;
         }
 
-        public Task<ServiceResponse<List<GetUserDto>>> GetAllUsers()
+        public async Task<ServiceResponse<DeleteUserDto>> DeleteUser(int id)
         {
-            throw new NotImplementedException();
+            ServiceResponse<DeleteUserDto> serviceResponse = new ServiceResponse<DeleteUserDto>();
+            try
+            {
+                User user = _context.Users.FirstOrDefault(u => u.Id == id);
+                user.IsActive = false;
+                _context.SaveChanges();
+                serviceResponse.Data = _mapper.Map<DeleteUserDto>(user);
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+            return serviceResponse;
         }
 
-        public Task<ServiceResponse<GetUserDto>> GetUserById(int id)
+        public async Task<ServiceResponse<List<GetUsersDto>>> GetAllUsers()
         {
-            throw new NotImplementedException();
+            ServiceResponse<List<GetUsersDto>> serviceResponse = new ServiceResponse<List<GetUsersDto>>();
+            try
+            {
+                serviceResponse.Data = _context.Users.Where(u => u.IsActive != false).Select(u => _mapper.Map<GetUsersDto>(u)).ToList();
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+            return serviceResponse;
         }
 
-        public Task<ServiceResponse<GetUserDto>> UpdateUser(UpdateUserDto updateCharacter)
+        public async Task<ServiceResponse<GetUserDto>> GetUserById(int id)
         {
-            throw new NotImplementedException();
+            ServiceResponse<GetUserDto> serviceResponse = new ServiceResponse<GetUserDto>();
+            try
+            {
+                serviceResponse.Data = _mapper.Map<GetUserDto>(_context.Users.FirstOrDefault(u => u.Id == id));
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<GetUserDto>> UpdateUser(UpdateUserDto updateCharacter)
+        {
+            ServiceResponse<GetUserDto> serviceResponse = new ServiceResponse<GetUserDto>();
+            try
+            {
+                User user = _context.Users.FirstOrDefault(u => u.Id == updateCharacter.Id);
+                user.Username = updateCharacter.Username;
+                user.EmailAddress = updateCharacter.EmailAddress;
+                user.Role = updateCharacter.Role;
+                if (user.Password != updateCharacter.Password)
+                {
+                    user.Password = updateCharacter.Password;
+                    user.Salt = updateCharacter.Salt;
+                    user.LastPasswordChange = updateCharacter.LastPasswordChange;
+                    user.EnforcePasswordChange = false;
+                }
+                serviceResponse.Data = _mapper.Map<GetUserDto>(user);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+            return serviceResponse;
         }
     }
 }

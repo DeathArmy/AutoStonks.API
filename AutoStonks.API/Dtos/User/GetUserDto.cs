@@ -12,5 +12,11 @@ namespace AutoStonks.API.Dtos.User
         public string Username { get; set; }
         public string EmailAddress { get; set; }
         public char Role { get; set; }
+        public string Password { get; set; }
+        public string Salt { get; set; }
+        public bool EnforcePasswordChange { get; set; } = false;
+        public DateTime LastPasswordChange { get; set; }
+        public bool IsActive { get; set; } = true;
+        public List<Advert> Adverts { get; set; }
     }
 }

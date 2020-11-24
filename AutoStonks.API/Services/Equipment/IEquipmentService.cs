@@ -9,6 +9,6 @@ namespace AutoStonks.API.Services.Equipment
 {
     public interface IEquipmentService
     {
-        public Task<ServiceResponse<List<GetEquipmentDto>>> GetEquipment(GetEquipmentDto brand);
+        public Task<ServiceResponse<List<GetEquipmentDto>>> GetEquipment();
     }
 }

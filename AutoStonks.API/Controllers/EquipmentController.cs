@@ -1,4 +1,6 @@
-﻿using AutoStonks.API.Services.Equipment;
+﻿using AutoStonks.API.Dtos.Equipment;
+using AutoStonks.API.Models;
+using AutoStonks.API.Services.Equipment;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -15,6 +17,17 @@ namespace AutoStonks.API.Controllers
         public EquipmentController(IEquipmentService equipmentService)
         {
             _equipmentService = equipmentService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            ServiceResponse<List<GetEquipmentDto>> response = await _equipmentService.GetEquipment();
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
         }
     }
 }
