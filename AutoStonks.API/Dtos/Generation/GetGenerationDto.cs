@@ -1,16 +1,15 @@
-﻿using AutoStonks.API.Dtos.Model;
-using AutoStonks.API.Models;
+﻿using AutoStonks.API.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AutoStonks.API.Dtos.Brand
+namespace AutoStonks.API.Dtos.Generation
 {
-    public class GetBrandDto
+    public class GetGenerationDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<GetModelDto> Models { get; set; }
+        public List<Package> Versions { get; set; }
     }
 }

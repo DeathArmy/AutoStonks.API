@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoStonks.API.Dtos.Model;
+using AutoStonks.API.Dtos.Generation;
 
 namespace AutoStonks.API
 {
@@ -25,6 +27,8 @@ namespace AutoStonks.API
             CreateMap<DeleteBrandDto, Brand>();
             CreateMap<UpdateBrandDto, Brand>();
             CreateMap<GetEquipmentDto, Equipment>();
+            CreateMap<Model, GetModelDto>();
+            CreateMap<Generation, GetGenerationDto>();
         }
     }
 }

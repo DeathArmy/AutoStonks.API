@@ -18,25 +18,6 @@ namespace AutoStonks.API.Services.UserService
             _context = context;
         }
 
-
-        //public async Task<ServiceResponse<GetUserDto>> UpdateUser(UpdateUserDto updateCharacter)
-        //{
-        //    ServiceResponse<GetUserDto> serviceResponse = new ServiceResponse<GetUserDto>();
-        //    try
-        //    {
-        //        User user = users.FirstOrDefault(c => c.Id == updateCharacter.Id);
-        //        user.emailAddress = updateCharacter.emailAddress;
-        //        user.username = updateCharacter.username;
-        //        user.role = updateCharacter.role;
-        //        serviceResponse.Data = _mapper.Map<GetUserDto>(user);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        serviceResponse.Success = false;
-        //        serviceResponse.Message = ex.Message;
-        //    }
-        //    return serviceResponse;
-        //}
         public async Task<ServiceResponse<GetUserDto>> AddUser(AddUserDto newUser)
         {
             ServiceResponse<GetUserDto> serviceResponse = new ServiceResponse<GetUserDto>();

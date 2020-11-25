@@ -23,8 +23,9 @@ namespace AutoStonks.API.Services.BrandService
             ServiceResponse<List<Brand>> serviceResponse = new ServiceResponse<List<Brand>>();
             try
             {
-                    _context.Add(brand);
-                    serviceResponse.Data = _context.Brands.ToList();
+                _context.Add(brand);
+                serviceResponse.Data = _context.Brands.ToList();
+                _context.SaveChanges(); 
             }
             catch (Exception ex)
             {
@@ -56,7 +57,11 @@ namespace AutoStonks.API.Services.BrandService
             ServiceResponse<List<GetBrandDto>> serviceResponse = new ServiceResponse<List<GetBrandDto>>();
             try
             {
-                    serviceResponse.Data = _context.Brands.ToList().Select(b => _mapper.Map<GetBrandDto>(b)).ToList();
+                    serviceResponse.Data = _context.Brands
+                                                          .Include(b => b.Models)
+                                                            .ThenInclude(m => m.Generations)
+                                                          .Select(b => _mapper.Map<GetBrandDto>(b))
+                                                          .ToList();
             }
             catch (Exception ex)
             {
