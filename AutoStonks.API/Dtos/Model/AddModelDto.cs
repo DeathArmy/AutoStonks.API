@@ -8,9 +8,7 @@ namespace AutoStonks.API.Dtos.Model
 {
     public class AddModelDto
     {
-        public int Id { get; set; }
         public string Name { get; set; }
-        public Models.Brand Brand { get; set; }
         public int BrandId { get; set; }
     }
 }

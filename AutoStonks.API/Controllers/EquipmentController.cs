@@ -1,6 +1,6 @@
 ﻿using AutoStonks.API.Dtos.Equipment;
 using AutoStonks.API.Models;
-using AutoStonks.API.Services.Equipment;
+using AutoStonks.API.Services.EquipmentService;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

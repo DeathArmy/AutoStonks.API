@@ -1,5 +1,7 @@
-﻿using AutoStonks.API.Dtos.Model;
+﻿using AutoMapper;
+using AutoStonks.API.Dtos.Model;
 using AutoStonks.API.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,29 +11,95 @@ namespace AutoStonks.API.Services.ModelService
 {
     public class ModelService : IModelService
     {
-        public async Task<ServiceResponse<List<Model>>> AddModel(AddModelDto newMrand, Brand brand)
+        DataContext _context;
+        private readonly IMapper _mapper;
+        public ModelService(IMapper mapper, DataContext context)
         {
-            throw new NotImplementedException();
+            _mapper = mapper;
+            _context = context;
+        }
+        public async Task<ServiceResponse<List<Model>>> AddModel(AddModelDto newModel)
+        {
+            ServiceResponse<List<Model>> serviceResponse = new ServiceResponse<List<Model>>();
+            try
+            {
+                _context.Models.Add(_mapper.Map<Model>(newModel));
+                _context.SaveChanges();
+                serviceResponse.Data = _context.Models.ToList();
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+            return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<Model>>> Delete(Model model)
+        public async Task<ServiceResponse<List<Model>>> Delete(int idModel)
         {
-            throw new NotImplementedException();
+            ServiceResponse<List<Model>> serviceResponse = new ServiceResponse<List<Model>>();
+            try
+            {
+                var toDelete = _context.Models.FirstOrDefault(m => m.Id == idModel);
+                _context.Models.Remove(toDelete);
+                _context.SaveChanges();
+                serviceResponse.Data = _context.Models.ToList();
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+            return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<Model>>> GetAll()
+        public async Task<ServiceResponse<List<GetModelDto>>> GetAll()
         {
-            throw new NotImplementedException();
+            ServiceResponse<List<GetModelDto>> serviceResponse = new ServiceResponse<List<GetModelDto>>();
+            try
+            {
+                serviceResponse.Data = _context.Models.Include(m => m.Generations).Select(m => _mapper.Map<GetModelDto>(m)).ToList();
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+            return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<Model>>> GetSpecific(int id)
+        public async Task<ServiceResponse<GetModelDto>> GetSpecific(int idModel)
         {
-            throw new NotImplementedException();
+            ServiceResponse<GetModelDto> serviceResponse = new ServiceResponse<GetModelDto>();
+            try
+            {
+                var temp = _context.Models.Include(m => m.Generations).FirstOrDefault(m => m.Id == idModel);
+                serviceResponse.Data = _mapper.Map<GetModelDto>(temp);
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+            return serviceResponse;
         }
 
         public async Task<ServiceResponse<List<Model>>> Update(UpdateModelDto updateModel)
         {
-            throw new NotImplementedException();
+            ServiceResponse<List<Model>> serviceResponse = new ServiceResponse<List<Model>>();
+            try
+            {
+                var updatedModel = _context.Models.FirstOrDefault(m => m.Id == updateModel.Id);
+                updatedModel.Name = updateModel.Name;
+                _context.SaveChanges();
+                serviceResponse.Data = _context.Models.ToList();
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+            return serviceResponse;
         }
     }
 }

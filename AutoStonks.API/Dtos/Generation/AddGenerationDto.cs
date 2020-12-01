@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AutoStonks.API.Dtos.Model
+namespace AutoStonks.API.Dtos.Generation
 {
-    public class DeleteBrandDto
+    public class AddGenerationDto
     {
-        public int Id { get; set; }
         public string Name { get; set; }
     }
 }

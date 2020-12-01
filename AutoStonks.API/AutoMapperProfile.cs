@@ -24,11 +24,12 @@ namespace AutoStonks.API
             CreateMap<UpdateUserDto, User>();
             CreateMap<Brand, GetBrandDto>();
             CreateMap<AddBrandDto, Brand>();
-            CreateMap<DeleteBrandDto, Brand>();
             CreateMap<UpdateBrandDto, Brand>();
             CreateMap<GetEquipmentDto, Equipment>();
             CreateMap<Model, GetModelDto>();
+            CreateMap<GetModelDto, Model>();
             CreateMap<Generation, GetGenerationDto>();
+            CreateMap<AddGenerationDto, Generation>();
         }
     }
 }

@@ -7,14 +7,12 @@ using System.Threading.Tasks;
 
 namespace AutoStonks.API.Services.ModelService
 {
-    interface IModelService
+    public interface IModelService
     {
-        public Task<ServiceResponse<List<Model>>> AddModel(AddModelDto newMrand, Brand brand);
-        public Task<ServiceResponse<List<Model>>> GetAll();
-        public Task<ServiceResponse<List<Model>>> GetSpecific(int id);
+        public Task<ServiceResponse<List<Model>>> AddModel(AddModelDto newModel);
+        public Task<ServiceResponse<List<GetModelDto>>> GetAll();
+        public Task<ServiceResponse<GetModelDto>> GetSpecific(int idModel);
         public Task<ServiceResponse<List<Model>>> Update(UpdateModelDto updateModel);
-        public Task<ServiceResponse<List<Model>>> Delete(Model model);
-
-
+        public Task<ServiceResponse<List<Model>>> Delete(int idModel);
     }
 }

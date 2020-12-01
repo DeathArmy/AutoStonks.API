@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AutoStonks.API.Services.Equipment
+namespace AutoStonks.API.Services.EquipmentService
 {
     public interface IEquipmentService
     {

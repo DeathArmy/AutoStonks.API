@@ -28,6 +28,16 @@ namespace AutoStonks.API.Controllers
             }
             return Ok(response);
         }
+        [HttpGet("{idBrand}")]
+        public async Task<IActionResult> GetSpecific(int idBrand)
+        {
+            ServiceResponse<GetBrandDto> response = await _brandService.GetSpecific(idBrand);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
         [HttpPost]
         public async Task<IActionResult> AddBrand(AddBrandDto newBrand)
         {
@@ -39,10 +49,10 @@ namespace AutoStonks.API.Controllers
             return Ok(response);
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> DeleteBrand(DeleteBrandDto brand)
+        [HttpDelete("{idBrand}")]
+        public async Task<IActionResult> DeleteBrand(int idBrand)
         {
-            ServiceResponse<List<Brand>> response = await _brandService.DeleteBrand(brand);
+            ServiceResponse<List<Brand>> response = await _brandService.DeleteBrand(idBrand);
             if (response.Data == null)
             {
                 return NotFound(response);
