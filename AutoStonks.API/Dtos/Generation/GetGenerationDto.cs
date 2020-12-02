@@ -10,6 +10,6 @@ namespace AutoStonks.API.Dtos.Generation
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<Package> Versions { get; set; }
+        public List<Models.Package> Versions { get; set; }
     }
 }

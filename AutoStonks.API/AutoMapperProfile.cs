@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoStonks.API.Dtos.Model;
 using AutoStonks.API.Dtos.Generation;
+using AutoStonks.API.Dtos.Package;
 
 namespace AutoStonks.API
 {
@@ -30,6 +31,7 @@ namespace AutoStonks.API
             CreateMap<GetModelDto, Model>();
             CreateMap<Generation, GetGenerationDto>();
             CreateMap<AddGenerationDto, Generation>();
+            CreateMap<AddPackageDto, Package>();
         }
     }
 }

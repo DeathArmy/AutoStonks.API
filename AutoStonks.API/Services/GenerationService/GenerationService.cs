@@ -72,7 +72,7 @@ namespace AutoStonks.API.Services.GenerationService
             ServiceResponse<List<Generation>> serviceResponse = new ServiceResponse<List<Generation>>();
             try
             {
-                var updatedGeneration = _context.Models.FirstOrDefault(m => m.Id == updateGeneration.Id);
+                var updatedGeneration = _context.Generations.FirstOrDefault(m => m.Id == updateGeneration.Id);
                 updatedGeneration.Name = updatedGeneration.Name;
                 _context.SaveChanges();
                 serviceResponse.Data = _context.Generations.ToList();
