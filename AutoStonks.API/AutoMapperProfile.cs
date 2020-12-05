@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using AutoStonks.API.Dtos.Model;
 using AutoStonks.API.Dtos.Generation;
 using AutoStonks.API.Dtos.Package;
+using AutoStonks.API.Dtos.Advert;
 
 namespace AutoStonks.API
 {
@@ -32,6 +33,9 @@ namespace AutoStonks.API
             CreateMap<Generation, GetGenerationDto>();
             CreateMap<AddGenerationDto, Generation>();
             CreateMap<AddPackageDto, Package>();
+            CreateMap<AddAdvertDto, Advert>();
+            CreateMap<Advert, GetAdvertBasicInfoDto>();
+            CreateMap<Advert, GetAdvertFullInfoDto>();
         }
     }
 }

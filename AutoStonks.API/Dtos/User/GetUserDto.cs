@@ -17,6 +17,5 @@ namespace AutoStonks.API.Dtos.User
         public bool EnforcePasswordChange { get; set; } = false;
         public DateTime LastPasswordChange { get; set; }
         public bool IsActive { get; set; } = true;
-        public List<Advert> Adverts { get; set; }
     }
 }

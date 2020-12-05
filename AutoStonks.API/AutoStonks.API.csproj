@@ -19,7 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Dtos\Advert\" />
     <Folder Include="Dtos\AdverEquipment\" />
     <Folder Include="Dtos\Payment\" />
   </ItemGroup>

@@ -3,47 +3,45 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AutoStonks.API.Models
+namespace AutoStonks.API.Dtos.Advert
 {
-    public enum States
+    public class GetAdvertFullInfoDto
     {
-        New, //Dodane, nieopłacone
-        Active, //Dodane, opłacone
-        Expired,
-        Terminated
-    }
-    public enum FuelType
-    {
-        Diesel,
-        Petrol,
-        Electric,
-        LPG
-    }
-    public enum ConditionState
-    {
-        Damaged,
-        Undamaged
-    }
-    public enum DriveTypes
-    {
-        FWD,
-        RWD,
-        AWD
-    }
-    public enum TransmissionTypes
-    {
-        Sequence,
-        Automatic,
-        Manual
-    }
-
-    public class Advert
-    {
+        public enum States
+        {
+            New, //Dodane, nieopłacone
+            Active, //Dodane, opłacone
+            Expired,
+            Terminated
+        }
+        public enum FuelType
+        {
+            Diesel,
+            Petrol,
+            Electric,
+            LPG
+        }
+        public enum ConditionState
+        {
+            Damaged,
+            Undamaged
+        }
+        public enum DriveTypes
+        {
+            FWD,
+            RWD,
+            AWD
+        }
+        public enum TransmissionTypes
+        {
+            Sequence,
+            Automatic,
+            Manual
+        }
         public int Id { get; set; }
         public int UserId { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime ModificationDate { get; set; }
-        public DateTime ExpiryDate { get; set; } //ustawiamy dopiero, gdy otrzymamy płatność
         public bool IsPromoted { get; set; }
         public string Description { get; set; }
         public string VIN { get; set; }
@@ -63,10 +61,7 @@ namespace AutoStonks.API.Models
         public DriveTypes DriveType { get; set; }
         public int VisitCount { get; set; }
         public int GenerationId { get; set; }
-        public List<Photo> Photos { get; set; }
-        public List<AdvertEquipment> AdvertEquipments { get; set; }
-        public Generation Generation { get; set; }
-        public User User { get; set; }
-        public List<Payment> Payments { get; set; }
+        public List<Models.Photo> Photos { get; set; }
+        public List<Models.AdvertEquipment> AdvertEquipments { get; set; }
     }
 }

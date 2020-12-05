@@ -23,7 +23,7 @@ namespace AutoStonks.API.Services.BrandService
             ServiceResponse<List<Brand>> serviceResponse = new ServiceResponse<List<Brand>>();
             try
             {
-                _context.Add(brand);
+                _context.Brands.Add(_mapper.Map<Brand>(brand));
                 serviceResponse.Data = _context.Brands.ToList();
                 _context.SaveChanges(); 
             }
