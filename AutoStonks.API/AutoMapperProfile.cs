@@ -11,6 +11,8 @@ using AutoStonks.API.Dtos.Model;
 using AutoStonks.API.Dtos.Generation;
 using AutoStonks.API.Dtos.Package;
 using AutoStonks.API.Dtos.Advert;
+using AutoStonks.API.Dtos.AdvertEquipment;
+using AutoStonks.API.Dtos.Payment;
 
 namespace AutoStonks.API
 {
@@ -36,6 +38,10 @@ namespace AutoStonks.API
             CreateMap<AddAdvertDto, Advert>();
             CreateMap<Advert, GetAdvertBasicInfoDto>();
             CreateMap<Advert, GetAdvertFullInfoDto>();
+            CreateMap<List<AddAdvertEquipmentDto>, List<AdvertEquipment>>();
+            CreateMap<AddPaymentDto, Payment>();
+            CreateMap<UpdatePaymentDto, Payment>();
+            CreateMap<Payment, GetPaymentDto>();
         }
     }
 }
