@@ -9,6 +9,6 @@ namespace AutoStonks.API.Services.AdvertEquipmentService
 {
     public interface IAdvertEquipmentService
     {
-        public Task<ServiceResponse<List<AdvertEquipment>>> AddAdvert(AddAdvertEquipmentDto newConnection);
+        public Task<ServiceResponse<List<AdvertEquipment>>> AddAdvert(List<AddAdvertEquipmentDto> newConnection);
     }
 }
