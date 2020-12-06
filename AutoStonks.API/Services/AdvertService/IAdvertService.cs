@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AutoStonks.API.Services.AdvertService
 {
-    interface IAdvertService
+    public interface IAdvertService
     {
         public Task<ServiceResponse<List<Advert>>> AddAdvert(AddAdvertDto newAdvert);
         public Task<ServiceResponse<List<Advert>>> DeleteAdvert(int idAdvert);
