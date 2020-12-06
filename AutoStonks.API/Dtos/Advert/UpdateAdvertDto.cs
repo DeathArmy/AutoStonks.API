@@ -57,6 +57,7 @@ namespace AutoStonks.API.Dtos.Advert
         public TransmissionTypes TransmissionType { get; set; }
         public DriveTypes DriveType { get; set; }
         public int GenerationId { get; set; }
+        public string PhoneNumber { get; set; }
         public List<Models.Photo> Photos { get; set; }
         public List<Models.AdvertEquipment> AdvertEquipments { get; set; }
     }

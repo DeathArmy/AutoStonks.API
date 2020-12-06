@@ -151,6 +151,7 @@ namespace AutoStonks.API.Services.AdvertService
                 entity.State = (Models.States)advert.State;
                 entity.TransmissionType = (Models.TransmissionTypes)advert.TransmissionType;
                 entity.VIN = advert.VIN;
+                entity.PhoneNumber = advert.PhoneNumber;
                 _context.SaveChanges();
                 serviceResponse.Data = _context.Adverts.ToList();
             }

@@ -63,6 +63,7 @@ namespace AutoStonks.API.Models
         public DriveTypes DriveType { get; set; }
         public int VisitCount { get; set; }
         public int GenerationId { get; set; }
+        public string PhoneNumber { get; set; }
         public List<Photo> Photos { get; set; }
         public List<AdvertEquipment> AdvertEquipments { get; set; }
         public Generation Generation { get; set; }

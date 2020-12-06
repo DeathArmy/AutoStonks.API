@@ -37,14 +37,8 @@ namespace AutoStonks.API
                 .HasOne(ae => ae.Equipment)
                 .WithMany(e => e.AdvertEquipments)
                 .HasForeignKey(ae => ae.EquipmentId);
+
+            modelBuilder.Seed();
         }
-
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseSqlServer("Data Source=DESKTOP-504HSN9\\BAZYDANYCH;Initial Catalog=AutoStonksDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-
-        //    base.OnConfiguring(optionsBuilder);
-        //}
-
     }
 }
