@@ -45,6 +45,7 @@ namespace AutoStonks.API.Models
         public DateTime ModificationDate { get; set; }
         public DateTime ExpiryDate { get; set; } //ustawiamy dopiero, gdy otrzymamy płatność
         public bool IsPromoted { get; set; }
+        public string Title { get; set; }
         public string Description { get; set; }
         public string VIN { get; set; }
         public DateTime FirstRegistrationDate { get; set; }

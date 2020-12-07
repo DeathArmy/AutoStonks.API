@@ -50,6 +50,7 @@ namespace AutoStonks.API.Dtos.Advert
         public FuelType Fuel { get; set; }
         public ConditionState Condition { get; set; }
         public int Horsepower { get; set; }
+        public string Title { get; set; }
         public int Displacement { get; set; }
         public string Location { get; set; }
         public bool HasBeenCrashed { get; set; }

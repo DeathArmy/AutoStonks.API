@@ -86,6 +86,9 @@ namespace AutoStonks.API.Migrations
                     b.Property<int>("State")
                         .HasColumnType("int");
 
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("TransmissionType")
                         .HasColumnType("int");
 
@@ -130,6 +133,7 @@ namespace AutoStonks.API.Migrations
                             PlateNumber = "CIN 74582",
                             Price = 9950.0,
                             State = 1,
+                            Title = "Igła!!",
                             TransmissionType = 2,
                             UserId = 2,
                             VIN = "VKFR1H1236578",
@@ -158,6 +162,7 @@ namespace AutoStonks.API.Migrations
                             PlateNumber = "CBY 74582",
                             Price = 19950.0,
                             State = 1,
+                            Title = "Alfa Romejoo",
                             TransmissionType = 2,
                             UserId = 3,
                             VIN = "VKFR1H1236578",

@@ -40,6 +40,7 @@ namespace AutoStonks.API.Dtos.Advert
         }
         public int Id { get; set; }
         public bool IsPromoted { get; set; }
+        public string Title { get; set; }
         public string Description { get; set; }
         public string VIN { get; set; }
         public DateTime FirstRegistrationDate { get; set; }

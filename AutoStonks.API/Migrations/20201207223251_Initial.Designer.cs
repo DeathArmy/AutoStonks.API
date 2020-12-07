@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoStonks.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201123185841_Initial")]
+    [Migration("20201207223251_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,6 +76,9 @@ namespace AutoStonks.API.Migrations
                     b.Property<DateTime>("ModificationDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PlateNumber")
                         .HasColumnType("nvarchar(max)");
 
@@ -84,6 +87,9 @@ namespace AutoStonks.API.Migrations
 
                     b.Property<int>("State")
                         .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TransmissionType")
                         .HasColumnType("int");
@@ -104,6 +110,66 @@ namespace AutoStonks.API.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Adverts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CarProductionDate = new DateTime(2008, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Condition = 1,
+                            CreationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "opis ogłoszenia, stan igła",
+                            Displacement = 1461,
+                            DriveType = 0,
+                            ExpiryDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FirstRegistrationDate = new DateTime(2008, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Fuel = 0,
+                            GenerationId = 1,
+                            HasBeenCrashed = true,
+                            Horsepower = 106,
+                            IsPromoted = false,
+                            Location = "Poznań",
+                            Mileage = 210000,
+                            ModificationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PhoneNumber = "600200400",
+                            PlateNumber = "CIN 74582",
+                            Price = 9950.0,
+                            State = 1,
+                            Title = "Igła!!",
+                            TransmissionType = 2,
+                            UserId = 2,
+                            VIN = "VKFR1H1236578",
+                            VisitCount = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CarProductionDate = new DateTime(2006, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Condition = 1,
+                            CreationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "opis ogłoszenia, stan igła",
+                            Displacement = 1461,
+                            DriveType = 1,
+                            ExpiryDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FirstRegistrationDate = new DateTime(2006, 12, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Fuel = 0,
+                            GenerationId = 4,
+                            HasBeenCrashed = false,
+                            Horsepower = 106,
+                            IsPromoted = false,
+                            Location = "Bydgoszcz",
+                            Mileage = 110000,
+                            ModificationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PhoneNumber = "600200800",
+                            PlateNumber = "CBY 74582",
+                            Price = 19950.0,
+                            State = 1,
+                            Title = "Alfa Romejoo",
+                            TransmissionType = 2,
+                            UserId = 3,
+                            VIN = "VKFR1H1236578",
+                            VisitCount = 0
+                        });
                 });
 
             modelBuilder.Entity("AutoStonks.API.Models.AdvertEquipment", b =>
@@ -119,6 +185,48 @@ namespace AutoStonks.API.Migrations
                     b.HasIndex("EquipmentId");
 
                     b.ToTable("AdvertEquipment");
+
+                    b.HasData(
+                        new
+                        {
+                            AdvertId = 1,
+                            EquipmentId = 1
+                        },
+                        new
+                        {
+                            AdvertId = 1,
+                            EquipmentId = 2
+                        },
+                        new
+                        {
+                            AdvertId = 1,
+                            EquipmentId = 3
+                        },
+                        new
+                        {
+                            AdvertId = 1,
+                            EquipmentId = 4
+                        },
+                        new
+                        {
+                            AdvertId = 1,
+                            EquipmentId = 5
+                        },
+                        new
+                        {
+                            AdvertId = 2,
+                            EquipmentId = 3
+                        },
+                        new
+                        {
+                            AdvertId = 2,
+                            EquipmentId = 4
+                        },
+                        new
+                        {
+                            AdvertId = 2,
+                            EquipmentId = 5
+                        });
                 });
 
             modelBuilder.Entity("AutoStonks.API.Models.Brand", b =>
@@ -134,6 +242,33 @@ namespace AutoStonks.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Brands");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Renault"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "BMW"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Mercedes-Benz"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Audi"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Alfa Roemo"
+                        });
                 });
 
             modelBuilder.Entity("AutoStonks.API.Models.Equipment", b =>
@@ -149,6 +284,118 @@ namespace AutoStonks.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Equipment");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "ESR"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Elektrycznie sterowane lusterka"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Elektrycznie sterowane szyby (przód + tył)"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Elektrycznie sterowane szyby (przód)"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Klimatyzacja manualna"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Klimatyzacja automatyczna"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Klimatyzacja automatyczna dwustrefowa"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "Klimatyzacja automatyczna trzystrefowa"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Name = "Klimatyzacja automatyczna czterostrefowa"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Name = "Czujniki parkowania (przód + tył)"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Name = "Czujniki parkowania (tył)"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Name = "Kamera cofania"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Name = "Światła przeciwmgielne"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Name = "Skórzana tapicerka"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Name = "Podgrzewane lusterka"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Name = "Podgrzewana tylna szyba"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Name = "Podgrzewana przednia szyba"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Name = "Czujnik deszczu"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Name = "Czujnik zmierzchu"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Name = "Doświetlanie zakrętów"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Name = "Światła do jazdy dziennej"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Name = "ABS"
+                        });
                 });
 
             modelBuilder.Entity("AutoStonks.API.Models.Generation", b =>
@@ -169,6 +416,44 @@ namespace AutoStonks.API.Migrations
                     b.HasIndex("ModelId");
 
                     b.ToTable("Generations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ModelId = 1,
+                            Name = "III"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ModelId = 1,
+                            Name = "IV"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ModelId = 2,
+                            Name = "III"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ModelId = 4,
+                            Name = "E36"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            ModelId = 4,
+                            Name = "E46"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            ModelId = 5,
+                            Name = ""
+                        });
                 });
 
             modelBuilder.Entity("AutoStonks.API.Models.Model", b =>
@@ -189,6 +474,38 @@ namespace AutoStonks.API.Migrations
                     b.HasIndex("BrandId");
 
                     b.ToTable("Models");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BrandId = 1,
+                            Name = "Clio"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            BrandId = 1,
+                            Name = "Megane"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            BrandId = 2,
+                            Name = "Seria 3"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            BrandId = 2,
+                            Name = "Seria 5"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            BrandId = 5,
+                            Name = "159"
+                        });
                 });
 
             modelBuilder.Entity("AutoStonks.API.Models.Package", b =>
@@ -232,6 +549,9 @@ namespace AutoStonks.API.Migrations
 
                     b.Property<float>("Price")
                         .HasColumnType("real");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -295,6 +615,44 @@ namespace AutoStonks.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            EmailAddress = "napewnoniehandlarz@gmail.com",
+                            EnforcePasswordChange = false,
+                            IsActive = true,
+                            LastPasswordChange = new DateTime(2020, 12, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Password = "qwerty",
+                            Role = "A",
+                            Salt = "0",
+                            Username = "NaPewnoNieHandlarz"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            EmailAddress = "kontotestowe@gmail.com",
+                            EnforcePasswordChange = false,
+                            IsActive = true,
+                            LastPasswordChange = new DateTime(2020, 12, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Password = "qwerty",
+                            Role = "U",
+                            Salt = "0",
+                            Username = "kontoTestowe"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            EmailAddress = "deatharmy@gmail.com",
+                            EnforcePasswordChange = false,
+                            IsActive = true,
+                            LastPasswordChange = new DateTime(2020, 12, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Password = "qwerty",
+                            Role = "U",
+                            Salt = "0",
+                            Username = "deatharmy"
+                        });
                 });
 
             modelBuilder.Entity("AutoStonks.API.Models.Advert", b =>

@@ -135,6 +135,7 @@ namespace AutoStonks.API.Services.AdvertService
                 var entity = _context.Adverts.FirstOrDefault(a => a.Id == advert.Id);
                 entity.CarProductionDate = advert.CarProductionDate;
                 entity.Condition = (Models.ConditionState)advert.Condition;
+                entity.Title = advert.Title;
                 entity.Description = advert.Description;
                 entity.Displacement = advert.Displacement;
                 entity.DriveType = (Models.DriveTypes)advert.DriveType;

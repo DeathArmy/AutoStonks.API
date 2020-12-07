@@ -104,6 +104,7 @@ namespace AutoStonks.API.Migrations
                     ModificationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ExpiryDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsPromoted = table.Column<bool>(type: "bit", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     VIN = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FirstRegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -121,7 +122,8 @@ namespace AutoStonks.API.Migrations
                     TransmissionType = table.Column<int>(type: "int", nullable: false),
                     DriveType = table.Column<int>(type: "int", nullable: false),
                     VisitCount = table.Column<int>(type: "int", nullable: false),
-                    GenerationId = table.Column<int>(type: "int", nullable: false)
+                    GenerationId = table.Column<int>(type: "int", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -194,6 +196,7 @@ namespace AutoStonks.API.Migrations
                     Price = table.Column<float>(type: "real", nullable: false),
                     PaymentInitiation = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PaymentTermination = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DurationInDays = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -225,6 +228,107 @@ namespace AutoStonks.API.Migrations
                         principalTable: "Adverts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Brands",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Renault" },
+                    { 2, "BMW" },
+                    { 3, "Mercedes-Benz" },
+                    { 4, "Audi" },
+                    { 5, "Alfa Roemo" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Equipment",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 22, "ABS" },
+                    { 21, "Światła do jazdy dziennej" },
+                    { 20, "Doświetlanie zakrętów" },
+                    { 19, "Czujnik zmierzchu" },
+                    { 18, "Czujnik deszczu" },
+                    { 17, "Podgrzewana przednia szyba" },
+                    { 16, "Podgrzewana tylna szyba" },
+                    { 15, "Podgrzewane lusterka" },
+                    { 14, "Skórzana tapicerka" },
+                    { 13, "Światła przeciwmgielne" },
+                    { 12, "Kamera cofania" },
+                    { 10, "Czujniki parkowania (przód + tył)" },
+                    { 9, "Klimatyzacja automatyczna czterostrefowa" },
+                    { 8, "Klimatyzacja automatyczna trzystrefowa" },
+                    { 7, "Klimatyzacja automatyczna dwustrefowa" },
+                    { 6, "Klimatyzacja automatyczna" },
+                    { 5, "Klimatyzacja manualna" },
+                    { 4, "Elektrycznie sterowane szyby (przód)" },
+                    { 3, "Elektrycznie sterowane szyby (przód + tył)" },
+                    { 2, "Elektrycznie sterowane lusterka" },
+                    { 1, "ESR" },
+                    { 11, "Czujniki parkowania (tył)" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "EmailAddress", "EnforcePasswordChange", "IsActive", "LastPasswordChange", "Password", "Role", "Salt", "Username" },
+                values: new object[,]
+                {
+                    { 2, "kontotestowe@gmail.com", false, true, new DateTime(2020, 12, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), "qwerty", "U", "0", "kontoTestowe" },
+                    { 1, "napewnoniehandlarz@gmail.com", false, true, new DateTime(2020, 12, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), "qwerty", "A", "0", "NaPewnoNieHandlarz" },
+                    { 3, "deatharmy@gmail.com", false, true, new DateTime(2020, 12, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), "qwerty", "U", "0", "deatharmy" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Models",
+                columns: new[] { "Id", "BrandId", "Name" },
+                values: new object[,]
+                {
+                    { 1, 1, "Clio" },
+                    { 2, 1, "Megane" },
+                    { 3, 2, "Seria 3" },
+                    { 4, 2, "Seria 5" },
+                    { 5, 5, "159" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Generations",
+                columns: new[] { "Id", "ModelId", "Name" },
+                values: new object[,]
+                {
+                    { 1, 1, "III" },
+                    { 2, 1, "IV" },
+                    { 3, 2, "III" },
+                    { 4, 4, "E36" },
+                    { 5, 4, "E46" },
+                    { 6, 5, "" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Adverts",
+                columns: new[] { "Id", "CarProductionDate", "Condition", "CreationDate", "Description", "Displacement", "DriveType", "ExpiryDate", "FirstRegistrationDate", "Fuel", "GenerationId", "HasBeenCrashed", "Horsepower", "IsPromoted", "Location", "Mileage", "ModificationDate", "PhoneNumber", "PlateNumber", "Price", "State", "Title", "TransmissionType", "UserId", "VIN", "VisitCount" },
+                values: new object[] { 1, new DateTime(2008, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "opis ogłoszenia, stan igła", 1461, 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2008, 5, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, 1, true, 106, false, "Poznań", 210000, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "600200400", "CIN 74582", 9950.0, 1, "Igła!!", 2, 2, "VKFR1H1236578", 0 });
+
+            migrationBuilder.InsertData(
+                table: "Adverts",
+                columns: new[] { "Id", "CarProductionDate", "Condition", "CreationDate", "Description", "Displacement", "DriveType", "ExpiryDate", "FirstRegistrationDate", "Fuel", "GenerationId", "HasBeenCrashed", "Horsepower", "IsPromoted", "Location", "Mileage", "ModificationDate", "PhoneNumber", "PlateNumber", "Price", "State", "Title", "TransmissionType", "UserId", "VIN", "VisitCount" },
+                values: new object[] { 2, new DateTime(2006, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "opis ogłoszenia, stan igła", 1461, 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2006, 12, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, 4, false, 106, false, "Bydgoszcz", 110000, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "600200800", "CBY 74582", 19950.0, 1, "Alfa Romejoo", 2, 3, "VKFR1H1236578", 0 });
+
+            migrationBuilder.InsertData(
+                table: "AdvertEquipment",
+                columns: new[] { "AdvertId", "EquipmentId" },
+                values: new object[,]
+                {
+                    { 1, 1 },
+                    { 1, 2 },
+                    { 1, 3 },
+                    { 1, 4 },
+                    { 1, 5 },
+                    { 2, 3 },
+                    { 2, 4 },
+                    { 2, 5 }
                 });
 
             migrationBuilder.CreateIndex(
