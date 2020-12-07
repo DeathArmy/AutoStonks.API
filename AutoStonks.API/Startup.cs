@@ -1,5 +1,13 @@
 using AutoMapper;
+using AutoStonks.API.Services.AdvertEquipmentService;
+using AutoStonks.API.Services.AdvertService;
 using AutoStonks.API.Services.BrandService;
+using AutoStonks.API.Services.EquipmentService;
+using AutoStonks.API.Services.GenerationService;
+using AutoStonks.API.Services.ModelService;
+using AutoStonks.API.Services.PackageService;
+using AutoStonks.API.Services.PaymentService;
+using AutoStonks.API.Services.PhotoService;
 using AutoStonks.API.Services.UserService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,6 +41,15 @@ namespace AutoStonks.API
             services.AddAutoMapper(typeof(Startup));
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IBrandService, BrandService>();
+            services.AddScoped<IAdvertService, AdvertService>();
+            services.AddScoped<IAdvertEquipmentService, AdvertEquipmentService>();
+            services.AddScoped<IEquipmentService, EquipmentService>();
+            services.AddScoped<IGenerationService, GenerationService>();
+            services.AddScoped<IModelService, ModelService>();
+            services.AddScoped<IPackageService, PackageService>();
+            services.AddScoped<IPaymentService, PaymentService>();
+            services.AddScoped<IPhotoService, PhotoService>();
+
             services.AddDbContext<DataContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("AutoStonksDb"));
