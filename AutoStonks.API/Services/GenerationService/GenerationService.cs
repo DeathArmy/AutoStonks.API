@@ -31,7 +31,7 @@ namespace AutoStonks.API.Services.GenerationService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.Message;
+                serviceResponse.Message = ex.InnerException.Message;
             }
             return serviceResponse;
         }
@@ -46,7 +46,7 @@ namespace AutoStonks.API.Services.GenerationService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.Message;
+                serviceResponse.Message = ex.InnerException.Message;
             }
             return serviceResponse;
         }
@@ -62,7 +62,7 @@ namespace AutoStonks.API.Services.GenerationService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.Message;
+                serviceResponse.Message = ex.InnerException.Message;
             }
             return serviceResponse;
         }
@@ -80,7 +80,7 @@ namespace AutoStonks.API.Services.GenerationService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.Message;
+                serviceResponse.Message = ex.InnerException.Message;
             }
             return serviceResponse;
         }
@@ -98,7 +98,7 @@ namespace AutoStonks.API.Services.GenerationService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.Message;
+                serviceResponse.Message = ex.InnerException.Message;
             }
             return serviceResponse;
         }

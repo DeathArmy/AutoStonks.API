@@ -27,7 +27,7 @@ namespace AutoStonks.API.Services.PhotoService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.Message;
+                serviceResponse.Message = ex.InnerException.Message;
             }
             return serviceResponse;
         }

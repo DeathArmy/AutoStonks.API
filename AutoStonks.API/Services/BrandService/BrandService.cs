@@ -24,13 +24,13 @@ namespace AutoStonks.API.Services.BrandService
             try
             {
                 _context.Brands.Add(_mapper.Map<Brand>(brand));
+                _context.SaveChanges();
                 serviceResponse.Data = _context.Brands.ToList();
-                _context.SaveChanges(); 
             }
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.Message;
+                serviceResponse.Message = ex.InnerException.Message;
             }
             return serviceResponse;
         }
@@ -47,7 +47,7 @@ namespace AutoStonks.API.Services.BrandService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.Message;
+                serviceResponse.Message = ex.InnerException.Message;
             }
             return serviceResponse;
         }
@@ -62,7 +62,7 @@ namespace AutoStonks.API.Services.BrandService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.Message;
+                serviceResponse.Message = ex.InnerException.Message;
             }
             return serviceResponse;
         }
@@ -80,7 +80,7 @@ namespace AutoStonks.API.Services.BrandService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.Message;
+                serviceResponse.Message = ex.InnerException.Message;
             }
             return serviceResponse;
         }
@@ -96,7 +96,7 @@ namespace AutoStonks.API.Services.BrandService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.Message;
+                serviceResponse.Message = ex.InnerException.Message;
             }
             return serviceResponse;
         }

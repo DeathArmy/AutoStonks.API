@@ -23,13 +23,13 @@ namespace AutoStonks.API.Services.AdvertService
             try
             {
                 _context.Adverts.Add(_mapper.Map<Advert>(newAdvert));
-                serviceResponse.Data = _context.Adverts.ToList();
                 _context.SaveChanges();
+                serviceResponse.Data = _context.Adverts.ToList();
             }
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.Message;
+                serviceResponse.Message = ex.InnerException.Message;
             }
             return serviceResponse;
         }
@@ -47,7 +47,7 @@ namespace AutoStonks.API.Services.AdvertService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.Message;
+                serviceResponse.Message = ex.InnerException.Message;
             }
             return serviceResponse;
         }
@@ -62,7 +62,7 @@ namespace AutoStonks.API.Services.AdvertService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.Message;
+                serviceResponse.Message = ex.InnerException.Message;
             }
             return serviceResponse;
         }
@@ -77,7 +77,7 @@ namespace AutoStonks.API.Services.AdvertService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.Message;
+                serviceResponse.Message = ex.InnerException.Message;
             }
             return serviceResponse;
         }
@@ -92,7 +92,7 @@ namespace AutoStonks.API.Services.AdvertService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.Message;
+                serviceResponse.Message = ex.InnerException.Message;
             }
             return serviceResponse;
         }
@@ -107,7 +107,7 @@ namespace AutoStonks.API.Services.AdvertService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.Message;
+                serviceResponse.Message = ex.InnerException.Message;
             }
             return serviceResponse;
         }
@@ -122,7 +122,7 @@ namespace AutoStonks.API.Services.AdvertService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.Message;
+                serviceResponse.Message = ex.InnerException.Message;
             }
             return serviceResponse;
         }
@@ -159,7 +159,7 @@ namespace AutoStonks.API.Services.AdvertService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.Message;
+                serviceResponse.Message = ex.InnerException.Message;
             }
             return serviceResponse;
         }
