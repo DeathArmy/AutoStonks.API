@@ -18,19 +18,20 @@ namespace AutoStonks.API.Services.ModelService
             _mapper = mapper;
             _context = context;
         }
-        public async Task<ServiceResponse<List<Model>>> AddModel(AddModelDto newModel)
+        public async Task<ServiceResponse<Model>> AddModel(AddModelDto newModel)
         {
-            ServiceResponse<List<Model>> serviceResponse = new ServiceResponse<List<Model>>();
+            ServiceResponse<Model> serviceResponse = new ServiceResponse<Model>();
             try
             {
-                _context.Models.Add(_mapper.Map<Model>(newModel));
+                var entity = _mapper.Map<Model>(newModel);
+                _context.Models.Add(entity);
                 _context.SaveChanges();
-                serviceResponse.Data = _context.Models.ToList();
+                serviceResponse.Data = entity;
             }
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }
@@ -48,7 +49,7 @@ namespace AutoStonks.API.Services.ModelService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }
@@ -63,7 +64,7 @@ namespace AutoStonks.API.Services.ModelService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }
@@ -79,25 +80,25 @@ namespace AutoStonks.API.Services.ModelService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<Model>>> Update(UpdateModelDto updateModel)
+        public async Task<ServiceResponse<Model>> Update(UpdateModelDto updateModel)
         {
-            ServiceResponse<List<Model>> serviceResponse = new ServiceResponse<List<Model>>();
+            ServiceResponse<Model> serviceResponse = new ServiceResponse<Model>();
             try
             {
                 var updatedModel = _context.Models.FirstOrDefault(m => m.Id == updateModel.Id);
                 updatedModel.Name = updateModel.Name;
                 _context.SaveChanges();
-                serviceResponse.Data = _context.Models.ToList();
+                serviceResponse.Data = updatedModel;
             }
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }

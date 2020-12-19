@@ -24,12 +24,13 @@ namespace AutoStonks.API.Services.AdvertEquipmentService
             {
                 _context.AdvertEquipment.AddRange(_mapper.Map<List<AdvertEquipment>>(newConnection));
                 _context.SaveChanges();
-                serviceResponse.Data = _context.AdvertEquipment.ToList();
+                serviceResponse.Data = _context.AdvertEquipment.Where(ae => ae.AdvertId == newConnection[0].AdvertId).ToList();
             }
             catch (Exception ex)
             {
+                serviceResponse.Data = _mapper.Map<List<AdvertEquipment>>(newConnection);
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }

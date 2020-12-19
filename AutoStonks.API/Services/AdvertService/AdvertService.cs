@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using AutoStonks.API.Dtos.Advert;
 using AutoStonks.API.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,19 +18,20 @@ namespace AutoStonks.API.Services.AdvertService
             _mapper = mapper;
             _context = context;
         }
-        public async Task<ServiceResponse<List<Advert>>> AddAdvert(AddAdvertDto newAdvert)
+        public async Task<ServiceResponse<Advert>> AddAdvert(AddAdvertDto newAdvert)
         {
-            ServiceResponse<List<Advert>> serviceResponse = new ServiceResponse<List<Advert>>();
+            ServiceResponse<Advert> serviceResponse = new ServiceResponse<Advert>();
             try
             {
                 _context.Adverts.Add(_mapper.Map<Advert>(newAdvert));
                 _context.SaveChanges();
-                serviceResponse.Data = _context.Adverts.ToList();
+                serviceResponse.Data = _context.Adverts.FirstOrDefault(a => a.VIN == newAdvert.VIN);
+                
             }
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }
@@ -47,7 +49,7 @@ namespace AutoStonks.API.Services.AdvertService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }
@@ -57,12 +59,12 @@ namespace AutoStonks.API.Services.AdvertService
             ServiceResponse<List<GetAdvertBasicInfoDto>> serviceResponse = new ServiceResponse<List<GetAdvertBasicInfoDto>>();
             try
             {
-                serviceResponse.Data = _context.Adverts.Where(a => a.IsPromoted == false).Select(a => _mapper.Map<GetAdvertBasicInfoDto>(a)).ToList();
+                serviceResponse.Data = _context.Adverts.Include(a => a.Generation).ThenInclude(g => g.Model).ThenInclude(m => m.Brand).Where(a => a.IsPromoted == false).Select(a => _mapper.Map<GetAdvertBasicInfoDto>(a)).ToList();
             }
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }
@@ -72,12 +74,12 @@ namespace AutoStonks.API.Services.AdvertService
             ServiceResponse<List<GetAdvertBasicInfoDto>> serviceResponse = new ServiceResponse<List<GetAdvertBasicInfoDto>>();
             try
             {
-                serviceResponse.Data = _context.Adverts.Where(a => a.IsPromoted == true).Select(a => _mapper.Map<GetAdvertBasicInfoDto>(a)).ToList();
+                serviceResponse.Data = _context.Adverts.Include(a => a.Generation).ThenInclude(g => g.Model).ThenInclude(m => m.Brand).Where(a => a.IsPromoted == true).Select(a => _mapper.Map<GetAdvertBasicInfoDto>(a)).ToList();
             }
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }
@@ -92,7 +94,7 @@ namespace AutoStonks.API.Services.AdvertService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }
@@ -102,12 +104,12 @@ namespace AutoStonks.API.Services.AdvertService
             ServiceResponse<GetAdvertBasicInfoDto> serviceResponse = new ServiceResponse<GetAdvertBasicInfoDto>();
             try
             {
-                serviceResponse.Data = _mapper.Map<GetAdvertBasicInfoDto>(_context.Adverts.FirstOrDefault(a => a.Id == idAdvert));
+                serviceResponse.Data = _mapper.Map<GetAdvertBasicInfoDto>(_context.Adverts.Include(a => a.Generation).ThenInclude(g => g.Model).ThenInclude(m => m.Brand).FirstOrDefault(a => a.Id == idAdvert));
             }
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }
@@ -117,19 +119,19 @@ namespace AutoStonks.API.Services.AdvertService
             ServiceResponse<GetAdvertFullInfoDto> serviceResponse = new ServiceResponse<GetAdvertFullInfoDto>();
             try
             {
-                serviceResponse.Data = _mapper.Map<GetAdvertFullInfoDto>(_context.Adverts.FirstOrDefault(a => a.Id == idAdvert));
+                serviceResponse.Data = _mapper.Map<GetAdvertFullInfoDto>(_context.Adverts.Include(a => a.Generation).ThenInclude(g => g.Model).ThenInclude(m => m.Brand).FirstOrDefault(a => a.Id == idAdvert));
             }
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<Advert>>> UpdateAdvert(UpdateAdvertDto advert)
+        public async Task<ServiceResponse<Advert>> UpdateAdvert(UpdateAdvertDto advert)
         {
-            ServiceResponse<List<Advert>> serviceResponse = new ServiceResponse<List<Advert>>();
+            ServiceResponse<Advert> serviceResponse = new ServiceResponse<Advert>();
             try
             {
                 var entity = _context.Adverts.FirstOrDefault(a => a.Id == advert.Id);
@@ -154,12 +156,13 @@ namespace AutoStonks.API.Services.AdvertService
                 entity.VIN = advert.VIN;
                 entity.PhoneNumber = advert.PhoneNumber;
                 _context.SaveChanges();
-                serviceResponse.Data = _context.Adverts.ToList();
+                serviceResponse.Data = entity;
             }
             catch (Exception ex)
             {
+                serviceResponse.Data = _mapper.Map<Advert>(advert);
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }

@@ -18,19 +18,20 @@ namespace AutoStonks.API.Services.BrandService
             _mapper = mapper;
             _context = context;
         }
-        public async Task<ServiceResponse<List<Brand>>> AddBrand(AddBrandDto brand)
+        public async Task<ServiceResponse<Brand>> AddBrand(AddBrandDto brand)
         {
-            ServiceResponse<List<Brand>> serviceResponse = new ServiceResponse<List<Brand>>();
+            ServiceResponse<Brand> serviceResponse = new ServiceResponse<Brand>();
             try
             {
-                _context.Brands.Add(_mapper.Map<Brand>(brand));
+                var entity = _mapper.Map<Brand>(brand);
+                _context.Brands.Add(entity);
                 _context.SaveChanges();
-                serviceResponse.Data = _context.Brands.ToList();
+                serviceResponse.Data = entity;
             }
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }
@@ -40,14 +41,14 @@ namespace AutoStonks.API.Services.BrandService
             ServiceResponse<List<Brand>> serviceResponse = new ServiceResponse<List<Brand>>();
             try
             {
-                    var entity = _context.Brands.FirstOrDefault(b => b.Id == idBrand);
-                    _context.Brands.Remove(entity);
-                    serviceResponse.Data = _context.Brands.ToList();
+                var entity = _context.Brands.FirstOrDefault(b => b.Id == idBrand);
+                _context.Brands.Remove(entity);
+                serviceResponse.Data = _context.Brands.ToList();
             }
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }
@@ -57,30 +58,30 @@ namespace AutoStonks.API.Services.BrandService
             ServiceResponse<List<GetBrandDto>> serviceResponse = new ServiceResponse<List<GetBrandDto>>();
             try
             {
-                    serviceResponse.Data = _context.Brands.Include(b => b.Models).ThenInclude(m => m.Generations).ThenInclude(g => g.Versions).Select(b => _mapper.Map<GetBrandDto>(b)).ToList();
+                serviceResponse.Data = _context.Brands.Include(b => b.Models).ThenInclude(m => m.Generations).ThenInclude(g => g.Versions).Select(b => _mapper.Map<GetBrandDto>(b)).ToList();
             }
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<Brand>>> UpdateBrand(UpdateBrandDto brand)
+        public async Task<ServiceResponse<Brand>> UpdateBrand(UpdateBrandDto brand)
         {
-            ServiceResponse<List<Brand>> serviceResponse = new ServiceResponse<List<Brand>>();
+            ServiceResponse<Brand> serviceResponse = new ServiceResponse<Brand>();
             try
             {
-                    var entity = _context.Brands.FirstOrDefault(b => b.Id == brand.Id);
-                    entity.Name = brand.Name;
-                    _context.SaveChanges();
-                    serviceResponse.Data = _context.Brands.ToList();
+                var entity = _context.Brands.FirstOrDefault(b => b.Id == brand.Id);
+                entity.Name = brand.Name;
+                _context.SaveChanges();
+                serviceResponse.Data = entity;
             }
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }
@@ -96,7 +97,7 @@ namespace AutoStonks.API.Services.BrandService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }

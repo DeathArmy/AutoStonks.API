@@ -18,25 +18,21 @@ namespace AutoStonks.API.Services.UserService
             _context = context;
         }
 
-        public async Task<ServiceResponse<GetUserDto>> AddUser(AddUserDto newUser)
+        public async Task<ServiceResponse<User>> AddUser(AddUserDto newUser)
         {
-            ServiceResponse<GetUserDto> serviceResponse = new ServiceResponse<GetUserDto>();
-            GetUserDto user = new GetUserDto();
+            ServiceResponse<User> serviceResponse = new ServiceResponse<User>();
+            User user = new User();
             try
             {
-                user.Username = newUser.Username;
-                user.Password = newUser.Password;
-                user.Salt = newUser.Salt;
-                user.EmailAddress = newUser.EmailAddress;
-                user.LastPasswordChange = newUser.LastPasswordChange;
-                _context.Users.Add(_mapper.Map<User>(user));
+                user = _mapper.Map<User>(newUser);
+                _context.Users.Add(user);
                 _context.SaveChanges();
-                serviceResponse.Data = _mapper.Map<GetUserDto>(_context.Users.FirstOrDefault(u => u.Username == newUser.Username));
+                serviceResponse.Data = user;
             }
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }
@@ -54,7 +50,7 @@ namespace AutoStonks.API.Services.UserService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }
@@ -69,7 +65,7 @@ namespace AutoStonks.API.Services.UserService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }
@@ -84,7 +80,7 @@ namespace AutoStonks.API.Services.UserService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }
@@ -111,7 +107,7 @@ namespace AutoStonks.API.Services.UserService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }

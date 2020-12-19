@@ -22,12 +22,12 @@ namespace AutoStonks.API.Services.EquipmentService
             ServiceResponse<List<GetEquipmentDto>> serviceResponse = new ServiceResponse<List<GetEquipmentDto>>();
             try
             {
-                    serviceResponse.Data = _context.Equipment.ToList().Select(e => _mapper.Map<GetEquipmentDto>(e)).ToList();
+                serviceResponse.Data = _context.Equipment.ToList().Select(e => _mapper.Map<GetEquipmentDto>(e)).ToList();
             }
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }

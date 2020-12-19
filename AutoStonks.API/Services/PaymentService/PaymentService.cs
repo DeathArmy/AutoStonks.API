@@ -18,19 +18,20 @@ namespace AutoStonks.API.Services.PaymentService
             _context = context;
         }
 
-        public async Task<ServiceResponse<List<Payment>>> AddPayment(AddPaymentDto newPayment)
+        public async Task<ServiceResponse<Payment>> AddPayment(AddPaymentDto newPayment)
         {
-            ServiceResponse<List<Payment>> serviceResponse = new ServiceResponse<List<Payment>>();
+            ServiceResponse<Payment> serviceResponse = new ServiceResponse<Payment>();
             try
             {
-                _context.Payments.Add(_mapper.Map<Payment>(newPayment));
+                var entity = _mapper.Map<Payment>(newPayment);
+                _context.Payments.Add(entity);
                 _context.SaveChanges();
-                serviceResponse.Data = _context.Payments.ToList();
+                serviceResponse.Data = entity;
             }
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }
@@ -45,7 +46,7 @@ namespace AutoStonks.API.Services.PaymentService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }
@@ -60,14 +61,14 @@ namespace AutoStonks.API.Services.PaymentService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<Payment>>> UpdatePayment(UpdatePaymentDto updatePayment)
+        public async Task<ServiceResponse<Payment>> UpdatePayment(UpdatePaymentDto updatePayment)
         {
-            ServiceResponse<List<Payment>> serviceResponse = new ServiceResponse<List<Payment>>();
+            ServiceResponse<Payment> serviceResponse = new ServiceResponse<Payment>();
             try
             {
                 var updatedPayment = _context.Payments.FirstOrDefault(p => p.Id == updatePayment.Id);
@@ -76,12 +77,12 @@ namespace AutoStonks.API.Services.PaymentService
                 updatedPayment.Price = updatedPayment.Price;
                 updatedPayment.StartDate = updatedPayment.StartDate;
                 _context.SaveChanges();
-                serviceResponse.Data = _context.Payments.ToList();
+                serviceResponse.Data = updatedPayment;
             }
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }

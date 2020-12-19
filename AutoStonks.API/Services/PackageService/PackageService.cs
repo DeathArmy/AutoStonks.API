@@ -18,19 +18,20 @@ namespace AutoStonks.API.Services.PackageService
             _context = context;
         }
 
-        public async Task<ServiceResponse<List<Package>>> AddPackage(AddPackageDto newPackage)
+        public async Task<ServiceResponse<Package>> AddPackage(AddPackageDto newPackage)
         {
-            ServiceResponse<List<Package>> serviceResponse = new ServiceResponse<List<Package>>();
+            ServiceResponse<Package> serviceResponse = new ServiceResponse<Package>();
             try
             {
-                _context.Packages.Add(_mapper.Map<Package>(newPackage));
+                var entity = _mapper.Map<Package>(newPackage);
+                _context.Packages.Add(entity);
                 _context.SaveChanges();
-                serviceResponse.Data = _context.Packages.ToList();
+                serviceResponse.Data = entity;
             }
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }
@@ -48,7 +49,7 @@ namespace AutoStonks.API.Services.PackageService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }
@@ -63,7 +64,7 @@ namespace AutoStonks.API.Services.PackageService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }
@@ -79,25 +80,25 @@ namespace AutoStonks.API.Services.PackageService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<Package>>> Update(UpdatePackageDto updatePackage)
+        public async Task<ServiceResponse<Package>> Update(UpdatePackageDto updatePackage)
         {
-            ServiceResponse<List<Package>> serviceResponse = new ServiceResponse<List<Package>>();
+            ServiceResponse<Package> serviceResponse = new ServiceResponse<Package>();
             try
             {
                 var updatedPackage = _context.Packages.FirstOrDefault(p => p.Id == updatePackage.Id);
                 updatedPackage.Name = updatePackage.Name;
                 _context.SaveChanges();
-                serviceResponse.Data = _context.Packages.ToList();
+                serviceResponse.Data = updatedPackage;
             }
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }

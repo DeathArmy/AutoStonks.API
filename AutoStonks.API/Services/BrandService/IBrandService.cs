@@ -9,9 +9,9 @@ namespace AutoStonks.API.Services.BrandService
 {
     public interface IBrandService
     {
-        public Task<ServiceResponse<List<Brand>>> AddBrand(AddBrandDto brand);
+        public Task<ServiceResponse<Brand>> AddBrand(AddBrandDto brand);
         public Task<ServiceResponse<List<Brand>>> DeleteBrand(int idBrand);
-        public Task<ServiceResponse<List<Brand>>> UpdateBrand(UpdateBrandDto brand);
+        public Task<ServiceResponse<Brand>> UpdateBrand(UpdateBrandDto brand);
         public Task<ServiceResponse<List<GetBrandDto>>> GetAll();
         public Task<ServiceResponse<GetBrandDto>> GetSpecific(int idBrand);
     }

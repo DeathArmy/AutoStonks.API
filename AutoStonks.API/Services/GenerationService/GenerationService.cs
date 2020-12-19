@@ -19,19 +19,20 @@ namespace AutoStonks.API.Services.GenerationService
             _context = context;
         }
 
-        public async Task<ServiceResponse<List<Generation>>> AddGeneration(AddGenerationDto newGeneration)
+        public async Task<ServiceResponse<Generation>> AddGeneration(AddGenerationDto newGeneration)
         {
-            ServiceResponse<List<Generation>> serviceResponse = new ServiceResponse<List<Generation>>();
+            ServiceResponse<Generation> serviceResponse = new ServiceResponse<Generation>();
             try
             {
-                _context.Generations.Add(_mapper.Map<Generation>(newGeneration));
+                var entity = _mapper.Map<Generation>(newGeneration);
+                _context.Generations.Add(entity);
                 _context.SaveChanges();
-                serviceResponse.Data = _context.Generations.ToList();
+                serviceResponse.Data = entity;
             }
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }
@@ -46,7 +47,7 @@ namespace AutoStonks.API.Services.GenerationService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }
@@ -62,25 +63,25 @@ namespace AutoStonks.API.Services.GenerationService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<Generation>>> Update(UpdateGenerationDto updateGeneration)
+        public async Task<ServiceResponse<Generation>> Update(UpdateGenerationDto updateGeneration)
         {
-            ServiceResponse<List<Generation>> serviceResponse = new ServiceResponse<List<Generation>>();
+            ServiceResponse<Generation> serviceResponse = new ServiceResponse<Generation>();
             try
             {
                 var updatedGeneration = _context.Generations.FirstOrDefault(m => m.Id == updateGeneration.Id);
                 updatedGeneration.Name = updatedGeneration.Name;
                 _context.SaveChanges();
-                serviceResponse.Data = _context.Generations.ToList();
+                serviceResponse.Data = updatedGeneration;
             }
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }
@@ -98,7 +99,7 @@ namespace AutoStonks.API.Services.GenerationService
             catch (Exception ex)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = ex.InnerException.Message;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }
             return serviceResponse;
         }
