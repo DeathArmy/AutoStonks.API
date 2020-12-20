@@ -17,7 +17,6 @@ namespace AutoStonks.API
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Model> Models { get; set; }
         public DbSet<Generation> Generations { get; set; }
-        public DbSet<Package> Packages { get; set; }
         public DbSet<Payment> Payments { get; set; }
 
         public DataContext(DbContextOptions options) : base(options)

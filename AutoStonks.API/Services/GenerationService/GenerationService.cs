@@ -42,7 +42,7 @@ namespace AutoStonks.API.Services.GenerationService
             ServiceResponse<List<GetGenerationDto>> serviceResponse = new ServiceResponse<List<GetGenerationDto>>();
             try
             {
-                serviceResponse.Data = _context.Generations.Include(g => g.Versions).Select(g => _mapper.Map<GetGenerationDto>(g)).ToList();
+                serviceResponse.Data = _context.Generations.Select(g => _mapper.Map<GetGenerationDto>(g)).ToList();
             }
             catch (Exception ex)
             {
@@ -57,7 +57,7 @@ namespace AutoStonks.API.Services.GenerationService
             ServiceResponse<GetGenerationDto> serviceResponse = new ServiceResponse<GetGenerationDto>();
             try
             {
-                var temp = _context.Generations.Include(g => g.Versions).FirstOrDefault(g => g.Id == idGeneration);
+                var temp = _context.Generations.FirstOrDefault(g => g.Id == idGeneration);
                 serviceResponse.Data = _mapper.Map<GetGenerationDto>(temp);
             }
             catch (Exception ex)

@@ -5,7 +5,6 @@ using AutoStonks.API.Services.BrandService;
 using AutoStonks.API.Services.EquipmentService;
 using AutoStonks.API.Services.GenerationService;
 using AutoStonks.API.Services.ModelService;
-using AutoStonks.API.Services.PackageService;
 using AutoStonks.API.Services.PaymentService;
 using AutoStonks.API.Services.PhotoService;
 using AutoStonks.API.Services.UserService;
@@ -46,7 +45,6 @@ namespace AutoStonks.API
             services.AddScoped<IEquipmentService, EquipmentService>();
             services.AddScoped<IGenerationService, GenerationService>();
             services.AddScoped<IModelService, ModelService>();
-            services.AddScoped<IPackageService, PackageService>();
             services.AddScoped<IPaymentService, PaymentService>();
             services.AddScoped<IPhotoService, PhotoService>();
 

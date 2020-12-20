@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 namespace AutoStonks.API.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class ModelController : Controller
     {
         private readonly IModelService _modelService;

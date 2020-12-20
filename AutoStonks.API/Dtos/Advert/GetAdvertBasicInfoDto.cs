@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoStonks.API.Dtos.Generation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -39,6 +40,7 @@ namespace AutoStonks.API.Dtos.Advert
         public int Displacement { get; set; }
         public string Location { get; set; }
         public int GenerationId { get; set; }
+        public PlainGenerationDto Generation { get; set; }
         public List<Models.Photo> Photos { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using AutoStonks.API.Dtos.Generation;
+﻿using AutoStonks.API.Dtos.Brand;
+using AutoStonks.API.Dtos.Generation;
 using AutoStonks.API.Models;
 using System;
 using System.Collections.Generic;

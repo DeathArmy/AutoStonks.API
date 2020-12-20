@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 namespace AutoStonks.API.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class GenerationController : Controller
     {
         private readonly IGenerationService _generationService;

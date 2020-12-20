@@ -59,7 +59,7 @@ namespace AutoStonks.API.Services.ModelService
             ServiceResponse<List<GetModelDto>> serviceResponse = new ServiceResponse<List<GetModelDto>>();
             try
             {
-                serviceResponse.Data = _context.Models.Include(m => m.Generations).ThenInclude(g => g.Versions).Select(m => _mapper.Map<GetModelDto>(m)).ToList();
+                serviceResponse.Data = _context.Models.Include(m => m.Generations).Select(m => _mapper.Map<GetModelDto>(m)).ToList();
             }
             catch (Exception ex)
             {
@@ -74,7 +74,7 @@ namespace AutoStonks.API.Services.ModelService
             ServiceResponse<GetModelDto> serviceResponse = new ServiceResponse<GetModelDto>();
             try
             {
-                var temp = _context.Models.Include(m => m.Generations).ThenInclude(g => g.Versions).FirstOrDefault(m => m.Id == idModel);
+                var temp = _context.Models.Include(m => m.Generations).FirstOrDefault(m => m.Id == idModel);
                 serviceResponse.Data = _mapper.Map<GetModelDto>(temp);
             }
             catch (Exception ex)

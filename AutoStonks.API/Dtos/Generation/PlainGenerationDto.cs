@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace AutoStonks.API.Dtos.Generation
 {
-    public class GetGenerationDto
+    public class PlainGenerationDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public PlainModelDto Model { get; set; }
     }
 }

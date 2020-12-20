@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 namespace AutoStonks.API.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class PaymentController : Controller
     {
         private readonly IPaymentService _paymentService;
