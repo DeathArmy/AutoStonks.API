@@ -28,7 +28,6 @@ namespace AutoStonks.API.Services.AdvertEquipmentService
             }
             catch (Exception ex)
             {
-                serviceResponse.Data = _mapper.Map<List<AdvertEquipment>>(newConnection);
                 serviceResponse.Success = false;
                 serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }

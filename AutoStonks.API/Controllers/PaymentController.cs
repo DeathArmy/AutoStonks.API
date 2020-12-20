@@ -39,7 +39,7 @@ namespace AutoStonks.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddPayment(AddPaymentDto addPayment)
         {
-            ServiceResponse<List<Payment>> response = await _paymentService.AddPayment(addPayment);
+            ServiceResponse<Payment> response = await _paymentService.AddPayment(addPayment);
             if (response.Data == null)
             {
                 return NotFound(response);
@@ -50,7 +50,7 @@ namespace AutoStonks.API.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateModel(UpdatePaymentDto updatePayment)
         {
-            ServiceResponse<List<Payment>> response = await _paymentService.UpdatePayment(updatePayment);
+            ServiceResponse<Payment> response = await _paymentService.UpdatePayment(updatePayment);
             if (response.Data == null)
             {
                 return NotFound(response);

@@ -71,7 +71,7 @@ namespace AutoStonks.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddAdvert(AddAdvertDto newAdvert)
         {
-            ServiceResponse<List<Advert>> response = await _advertService.AddAdvert(newAdvert);
+            ServiceResponse<Advert> response = await _advertService.AddAdvert(newAdvert);
             if (response.Data == null)
             {
                 return NotFound(response);
@@ -92,7 +92,7 @@ namespace AutoStonks.API.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateAdvert(UpdateAdvertDto advert)
         {
-            ServiceResponse<List<Advert>> response = await _advertService.UpdateAdvert(advert);
+            ServiceResponse<Advert> response = await _advertService.UpdateAdvert(advert);
             if (response.Data == null)
             {
                 return NotFound(response);

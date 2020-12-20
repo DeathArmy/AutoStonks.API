@@ -41,7 +41,7 @@ namespace AutoStonks.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddBrand(AddBrandDto newBrand)
         {
-            ServiceResponse<List<Brand>> response = await _brandService.AddBrand(newBrand);
+            ServiceResponse<Brand> response = await _brandService.AddBrand(newBrand);
             if (response.Data == null)
             {
                 return NotFound(response);
@@ -63,7 +63,7 @@ namespace AutoStonks.API.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateBrand(UpdateBrandDto brand)
         {
-            ServiceResponse<List<Brand>> response = await _brandService.UpdateBrand(brand);
+            ServiceResponse<Brand> response = await _brandService.UpdateBrand(brand);
             if (response.Data == null)
             {
                 return NotFound(response);

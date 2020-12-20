@@ -39,7 +39,7 @@ namespace AutoStonks.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddModel(AddPackageDto newPackage)
         {
-            ServiceResponse<List<Package>> response = await _packageService.AddPackage(newPackage);
+            ServiceResponse<Package> response = await _packageService.AddPackage(newPackage);
             if (response.Data == null)
             {
                 return NotFound(response);
@@ -61,7 +61,7 @@ namespace AutoStonks.API.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateModel(UpdatePackageDto updatePackage)
         {
-            ServiceResponse<List<Package>> response = await _packageService.Update(updatePackage);
+            ServiceResponse<Package> response = await _packageService.Update(updatePackage);
             if (response.Data == null)
             {
                 return NotFound(response);

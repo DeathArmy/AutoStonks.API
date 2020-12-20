@@ -44,7 +44,7 @@ namespace AutoStonks.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddUser(AddUserDto newUser)
         {
-            ServiceResponse<GetUserDto> response = await _userService.AddUser(newUser);
+            ServiceResponse<User> response = await _userService.AddUser(newUser);
             if (response.Data == null)
             {
                 return NotFound(response);

@@ -39,7 +39,7 @@ namespace AutoStonks.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddModel(AddModelDto newModel)
         {
-            ServiceResponse<List<Model>> response = await _modelService.AddModel(newModel);
+            ServiceResponse<Model> response = await _modelService.AddModel(newModel);
             if (response.Data == null)
             {
                 return NotFound(response);
@@ -61,7 +61,7 @@ namespace AutoStonks.API.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateModel(UpdateModelDto updateModel)
         {
-            ServiceResponse<List<Model>> response = await _modelService.Update(updateModel);
+            ServiceResponse<Model> response = await _modelService.Update(updateModel);
             if (response.Data == null)
             {
                 return NotFound(response);

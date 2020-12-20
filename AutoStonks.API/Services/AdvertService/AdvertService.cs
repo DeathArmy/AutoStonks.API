@@ -160,7 +160,6 @@ namespace AutoStonks.API.Services.AdvertService
             }
             catch (Exception ex)
             {
-                serviceResponse.Data = _mapper.Map<Advert>(advert);
                 serviceResponse.Success = false;
                 serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
             }

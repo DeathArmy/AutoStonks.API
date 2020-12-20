@@ -39,7 +39,7 @@ namespace AutoStonks.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddModel(AddGenerationDto newGeneration)
         {
-            ServiceResponse<List<Generation>> response = await _generationService.AddGeneration(newGeneration);
+            ServiceResponse<Generation> response = await _generationService.AddGeneration(newGeneration);
             if (response.Data == null)
             {
                 return NotFound(response);
@@ -61,7 +61,7 @@ namespace AutoStonks.API.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateModel(UpdateGenerationDto updateGeneration)
         {
-            ServiceResponse<List<Generation>> response = await _generationService.Update(updateGeneration);
+            ServiceResponse<Generation> response = await _generationService.Update(updateGeneration);
             if (response.Data == null)
             {
                 return NotFound(response);
