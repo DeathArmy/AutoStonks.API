@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoStonks.API.Dtos.Generation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -62,6 +63,7 @@ namespace AutoStonks.API.Dtos.Advert
         public DriveTypes DriveType { get; set; }
         public int VisitCount { get; set; }
         public int GenerationId { get; set; }
+        public PlainGenerationDto Generation { get; set; }
         public string PhoneNumber { get; set; }
         public List<Models.Photo> Photos { get; set; }
         public List<Models.AdvertEquipment> AdvertEquipments { get; set; }
