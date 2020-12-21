@@ -177,5 +177,73 @@ namespace AutoStonks.API.Services.AdvertService
             }
             return serviceResponse;
         }
+        public async Task<ServiceResponse<List<GetAdvertBasicInfoDto>>> GetAdvertsMatchingToQuery(QueryAdvertDto query)
+        {
+            ServiceResponse<List<GetAdvertBasicInfoDto>> serviceResponse = new ServiceResponse<List<GetAdvertBasicInfoDto>>();
+            try
+            {
+                List<Advert> adverts = _context.Adverts.Include(g => g.Generation)
+                    .ThenInclude(m => m.Model)
+                        .ThenInclude(b => b.Brand)
+                    .ToList();
+                if (query.VIN != null) adverts = adverts.Where(a => a.VIN == query.VIN).ToList();//co gdy wpiszemy część VINu?
+                if (query.MinPrice > 0)
+                {
+                    if (query.MaxPrice == 0) adverts = adverts.Where(a => a.Price >= query.MinPrice).ToList();
+                    else if (query.MaxPrice > 0 && query.MaxPrice > query.MinPrice) adverts = adverts.Where(a => a.Price >= query.MinPrice && a.Price <= query.MaxPrice).ToList();
+                }
+                else if (query.MaxPrice > 0) adverts = adverts.Where(a => a.Price <= query.MaxPrice).ToList();
+
+                if (query.MinMileage > 0)
+                {
+                    if (query.MaxMileage == 0) adverts = adverts.Where(a => a.Mileage >= query.MinMileage).ToList();
+                    else if (query.MaxMileage > 0 && query.MaxMileage > query.MinMileage) adverts = adverts.Where(a => a.Mileage >= query.MinMileage && a.Mileage <= query.MaxMileage).ToList();
+                }
+                else if (query.MaxMileage > 0) adverts = adverts.Where(a => a.Mileage <= query.MaxMileage).ToList();
+
+                if (query.MinHorsepower > 0)
+                {
+                    if (query.MaxHorsepower == 0) adverts = adverts.Where(a => a.Horsepower >= query.MinHorsepower).ToList();
+                    else if (query.MaxHorsepower > 0 && query.MaxHorsepower > query.MinHorsepower) adverts = adverts.Where(a => a.Horsepower >= query.MinHorsepower && a.Horsepower <= query.MaxHorsepower).ToList();
+                }
+                else if (query.MaxHorsepower > 0) adverts = adverts.Where(a => a.Horsepower <= query.MaxHorsepower).ToList();
+
+                if (query.MinDisplacement > 0)
+                {
+                    if (query.MaxDisplacement == 0) adverts = adverts.Where(a => a.Displacement >= query.MinDisplacement).ToList();
+                    else if (query.MaxDisplacement > 0 && query.MaxDisplacement > query.MinDisplacement) adverts = adverts.Where(a => a.Displacement >= query.MinDisplacement && a.Displacement <= query.MaxDisplacement).ToList();
+                }
+                else if (query.MaxDisplacement > 0) adverts = adverts.Where(a => a.Displacement <= query.MaxDisplacement).ToList();
+
+                if (query.BrandName != null) adverts = adverts.Where(a => a.Generation.Model.Brand.Name == query.BrandName).ToList();
+
+                if (query.ModelName != null) adverts = adverts.Where(a => a.Generation.Model.Name == query.ModelName).ToList();
+
+                if (query.GenerationName != null) adverts = adverts.Where(a => a.Generation.Name == query.GenerationName).ToList();
+
+                if (query.TransmissionType != null) adverts = adverts.Where(a => a.TransmissionType.ToString() == query.TransmissionType.ToString()).ToList();
+
+                if (query.DriveType != null) adverts = adverts.Where(a => a.DriveType.ToString() == query.DriveType.ToString()).ToList();
+
+                if (query.Condition != null) adverts = adverts.Where(a => a.Condition.ToString() == query.Condition.ToString()).ToList();
+
+                if (query.Fuel != null) adverts = adverts.Where(a => a.Fuel.ToString() == query.Fuel.ToString()).ToList();
+
+                if (query.FromCarProductionDate != null)
+                {
+                    if (query.ToCarProductionDate != null) adverts = adverts.Where(a => a.CarProductionDate.Year >= query.FromCarProductionDate.Value.Year && a.CarProductionDate.Year <= query.ToCarProductionDate.Value.Year).ToList();
+                    else adverts = adverts.Where(a => a.CarProductionDate.Year >= query.FromCarProductionDate.Value.Year).ToList();
+                }
+                else if (query.ToCarProductionDate != null) adverts = adverts.Where(a => a.CarProductionDate.Year <= query.ToCarProductionDate.Value.Year).ToList();
+
+                serviceResponse.Data = adverts.Select(a => _mapper.Map<GetAdvertBasicInfoDto>(a)).ToList();
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = (ex.InnerException != null) ? ex.InnerException.Message : ex.Message;
+            }
+            return serviceResponse;
+        }
     }
 }

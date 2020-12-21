@@ -68,6 +68,16 @@ namespace AutoStonks.API.Controllers
             }
             return Ok(response);
         }
+        [HttpGet("Query")]
+        public async Task<IActionResult> Query([FromQuery] QueryAdvertDto queryAdvertDto)
+        {
+            ServiceResponse<List<GetAdvertBasicInfoDto>> response = await _advertService.GetAdvertsMatchingToQuery(queryAdvertDto);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
         [HttpPost]
         public async Task<IActionResult> AddAdvert(AddAdvertDto newAdvert)
         {

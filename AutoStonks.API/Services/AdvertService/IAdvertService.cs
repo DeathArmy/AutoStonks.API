@@ -17,5 +17,6 @@ namespace AutoStonks.API.Services.AdvertService
         public Task<ServiceResponse<List<GetAdvertBasicInfoDto>>> GetAllInactive();
         public Task<ServiceResponse<GetAdvertFullInfoDto>> GetSpecificFullInfo(int idAdvert);
         public Task<ServiceResponse<GetAdvertBasicInfoDto>> GetSpecificBasicInfo(int idAdvert);
+        public Task<ServiceResponse<List<GetAdvertBasicInfoDto>>> GetAdvertsMatchingToQuery(QueryAdvertDto queryAdvertDto);
     }
 }
