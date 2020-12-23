@@ -57,15 +57,35 @@ namespace AutoStonks.API.Controllers
         {
             ServiceResponse<GetUserDto> response = await _userService.UpdateUser(updateUser);
             if (response.Data == null)
-                {
-                    return NotFound(response);
-                }
+            {
+                return NotFound(response);
+            }
             return Ok(response);
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
             ServiceResponse<DeleteUserDto> response = await _userService.DeleteUser(id);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginDto login)
+        {
+            ServiceResponse<User> response = await _userService.Login(login);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
+        [HttpPost("pwd")]
+        public async Task<IActionResult> PasswordChange(PasswordChangeDto pwdChange)
+        {
+            ServiceResponse<User> response = await _userService.PasswordChange(pwdChange);
             if (response.Data == null)
             {
                 return NotFound(response);

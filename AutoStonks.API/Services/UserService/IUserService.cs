@@ -14,5 +14,7 @@ namespace AutoStonks.API.Services.UserService
         public Task<ServiceResponse<List<GetUsersDto>>> GetAllUsers();
         public Task<ServiceResponse<GetUserDto>> UpdateUser(UpdateUserDto updateCharacter);
         public Task<ServiceResponse<DeleteUserDto>> DeleteUser(int id);
+        public Task<ServiceResponse<User>> Login(LoginDto login);
+        public Task<ServiceResponse<User>> PasswordChange(PasswordChangeDto pwdChange);
     }
 }
