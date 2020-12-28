@@ -44,7 +44,7 @@ namespace AutoStonks.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddUser(AddUserDto newUser)
         {
-            ServiceResponse<User> response = await _userService.AddUser(newUser);
+            ServiceResponse<UserDto> response = await _userService.AddUser(newUser);
             if (response.Data == null)
             {
                 return NotFound(response);
@@ -75,7 +75,7 @@ namespace AutoStonks.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto login)
         {
-            ServiceResponse<User> response = await _userService.Login(login);
+            ServiceResponse<UserDto> response = await _userService.Login(login);
             if (response.Data == null)
             {
                 return NotFound(response);
@@ -85,7 +85,7 @@ namespace AutoStonks.API.Controllers
         [HttpPost("pwd")]
         public async Task<IActionResult> PasswordChange(PasswordChangeDto pwdChange)
         {
-            ServiceResponse<User> response = await _userService.PasswordChange(pwdChange);
+            ServiceResponse<UserDto> response = await _userService.PasswordChange(pwdChange);
             if (response.Data == null)
             {
                 return NotFound(response);

@@ -19,9 +19,9 @@ namespace AutoStonks.API.Services.UserService
             _context = context;
         }
 
-        public async Task<ServiceResponse<User>> AddUser(AddUserDto newUser)
+        public async Task<ServiceResponse<UserDto>> AddUser(AddUserDto newUser)
         {
-            ServiceResponse<User> serviceResponse = new ServiceResponse<User>();
+            ServiceResponse<UserDto> serviceResponse = new ServiceResponse<UserDto>();
             User user = new User();
             PasswordHashing ph = new PasswordHashing();
             try
@@ -31,7 +31,7 @@ namespace AutoStonks.API.Services.UserService
                 user.Password = Encoding.Unicode.GetString(ph.GetKey(user.Password, Encoding.Unicode.GetBytes(user.Salt)));
                 _context.Users.Add(user);
                 _context.SaveChanges();
-                serviceResponse.Data = user;
+                serviceResponse.Data = _mapper.Map<UserDto>(user);
             }
             catch (Exception ex)
             {
@@ -116,15 +116,15 @@ namespace AutoStonks.API.Services.UserService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<User>> Login(LoginDto login)
+        public async Task<ServiceResponse<UserDto>> Login(LoginDto login)
         {
-            ServiceResponse<User> serviceResponse = new ServiceResponse<User>();
+            ServiceResponse<UserDto> serviceResponse = new ServiceResponse<UserDto>();
             PasswordHashing ph = new PasswordHashing();
             User entity = new User();
             try
             {
                 entity = _context.Users.First(u => u.Username == login.Username);
-                if (ph.IsValid(login.Password, entity.Salt, entity.Password)) serviceResponse.Data = entity;
+                if (ph.IsValid(login.Password, entity.Salt, entity.Password)) serviceResponse.Data = _mapper.Map<UserDto>(entity);
                 else throw new Exception("");
                 if (entity.EnforcePasswordChange == true) throw new Exception("Password should be changed!");
             }
@@ -137,9 +137,9 @@ namespace AutoStonks.API.Services.UserService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<User>> PasswordChange(PasswordChangeDto pwdChange)
+        public async Task<ServiceResponse<UserDto>> PasswordChange(PasswordChangeDto pwdChange)
         {
-            ServiceResponse<User> serviceResponse = new ServiceResponse<User>();
+            ServiceResponse<UserDto> serviceResponse = new ServiceResponse<UserDto>();
             PasswordHashing ph = new PasswordHashing();
             User entity = new User();
             try
@@ -152,7 +152,7 @@ namespace AutoStonks.API.Services.UserService
                     entity.LastPasswordChange = DateTime.Now;
                     entity.EnforcePasswordChange = false;
                     _context.SaveChanges();
-                    serviceResponse.Data = entity;
+                    serviceResponse.Data = _mapper.Map<UserDto>(entity);
                 }
                 else throw new Exception("Wrong current password!");
             }

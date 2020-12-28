@@ -7,6 +7,7 @@ namespace AutoStonks.API.Dtos.Equipment
 {
     public class GetEquipmentDto
     {
+        public int Id { get; set; }
         public string Name { get; set; }
     }
 }

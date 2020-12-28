@@ -23,12 +23,15 @@ namespace AutoStonks.API
             CreateMap<User, GetUsersDto>();
             CreateMap<User, DeleteUserDto>();
             CreateMap<AddUserDto, User>();
+            CreateMap<UserDto, User>();
+            CreateMap<User, UserDto>();
             CreateMap<GetUserDto, User>();
             CreateMap<UpdateUserDto, User>();
             CreateMap<Brand, GetBrandDto>();
             CreateMap<AddBrandDto, Brand>();
             CreateMap<UpdateBrandDto, Brand>();
             CreateMap<GetEquipmentDto, Equipment>();
+            CreateMap<Equipment, GetEquipmentDto>();
             CreateMap<Model, GetModelDto>();
             CreateMap<GetModelDto, Model>();
             CreateMap<Generation, GetGenerationDto>();
@@ -38,6 +41,7 @@ namespace AutoStonks.API
             CreateMap<Advert, GetAdvertBasicInfoDto>();
             CreateMap<Advert, GetAdvertFullInfoDto>();
             CreateMap<List<AddAdvertEquipmentDto>, List<AdvertEquipment>>();
+            CreateMap<AdvertEquipment, PlainAdvertEquipmentDto>();
             CreateMap<AddPaymentDto, Payment>();
             CreateMap<UpdatePaymentDto, Payment>();
             CreateMap<Payment, GetPaymentDto>();

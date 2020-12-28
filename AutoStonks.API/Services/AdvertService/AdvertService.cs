@@ -131,7 +131,7 @@ namespace AutoStonks.API.Services.AdvertService
             ServiceResponse<GetAdvertFullInfoDto> serviceResponse = new ServiceResponse<GetAdvertFullInfoDto>();
             try
             {
-                serviceResponse.Data = _mapper.Map<GetAdvertFullInfoDto>(_context.Adverts.Include(a => a.Generation).ThenInclude(g => g.Model).ThenInclude(m => m.Brand).FirstOrDefault(a => a.Id == idAdvert));
+                serviceResponse.Data = _mapper.Map<GetAdvertFullInfoDto>(_context.Adverts.Include(a => a.Generation).ThenInclude(g => g.Model).ThenInclude(m => m.Brand).Include(e => e.AdvertEquipments).ThenInclude(ae => ae.Equipment).FirstOrDefault(a => a.Id == idAdvert));
             }
             catch (Exception ex)
             {
