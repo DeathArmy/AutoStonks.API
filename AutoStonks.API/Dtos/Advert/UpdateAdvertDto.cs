@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoStonks.API.Dtos.AdvertEquipment;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -60,6 +61,6 @@ namespace AutoStonks.API.Dtos.Advert
         public int GenerationId { get; set; }
         public string PhoneNumber { get; set; }
         public List<Models.Photo> Photos { get; set; }
-        public List<Models.AdvertEquipment> AdvertEquipments { get; set; }
+        public List<AddAdvertEquipmentDto> AdvertEquipments { get; set; }
     }
 }

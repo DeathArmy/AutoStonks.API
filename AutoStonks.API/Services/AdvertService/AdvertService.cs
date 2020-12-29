@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using AutoStonks.API.Dtos.Advert;
+using AutoStonks.API.Dtos.AdvertEquipment;
 using AutoStonks.API.Models;
+using AutoStonks.API.Services.AdvertEquipmentService;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -23,7 +25,17 @@ namespace AutoStonks.API.Services.AdvertService
             ServiceResponse<Advert> serviceResponse = new ServiceResponse<Advert>();
             try
             {
-                _context.Adverts.Add(_mapper.Map<Advert>(newAdvert));
+                var advert = new Advert();
+                advert = _mapper.Map<Advert>(newAdvert);
+
+                foreach (var ae in newAdvert.AdvertEquipments)
+                {
+                    var entity = new AddAdvertEquipmentDto();
+                    entity.AdvertId = ae.AdvertId;
+                    entity.EquipmentId = ae.EquipmentId;
+                    advert.AdvertEquipments.Add(_mapper.Map<AdvertEquipment>(entity));
+                }
+                _context.Adverts.Add(advert);
                 _context.SaveChanges();
                 serviceResponse.Data = _context.Adverts.FirstOrDefault(a => a.VIN == newAdvert.VIN);
                 
@@ -131,7 +143,10 @@ namespace AutoStonks.API.Services.AdvertService
             ServiceResponse<GetAdvertFullInfoDto> serviceResponse = new ServiceResponse<GetAdvertFullInfoDto>();
             try
             {
-                serviceResponse.Data = _mapper.Map<GetAdvertFullInfoDto>(_context.Adverts.Include(a => a.Generation).ThenInclude(g => g.Model).ThenInclude(m => m.Brand).Include(e => e.AdvertEquipments).ThenInclude(ae => ae.Equipment).FirstOrDefault(a => a.Id == idAdvert));
+                var entity = _mapper.Map<GetAdvertFullInfoDto>(_context.Adverts.Include(a => a.Generation).ThenInclude(g => g.Model).ThenInclude(m => m.Brand).Include(e => e.AdvertEquipments).ThenInclude(ae => ae.Equipment).FirstOrDefault(a => a.Id == idAdvert));
+                entity.VisitCount++;
+                _context.SaveChanges();
+                serviceResponse.Data = entity;
             }
             catch (Exception ex)
             {
@@ -146,7 +161,7 @@ namespace AutoStonks.API.Services.AdvertService
             ServiceResponse<Advert> serviceResponse = new ServiceResponse<Advert>();
             try
             {
-                var entity = _context.Adverts.FirstOrDefault(a => a.Id == advert.Id);
+                Advert entity = _context.Adverts.Include(ae => ae.AdvertEquipments).FirstOrDefault(a => a.Id == advert.Id);
                 entity.CarProductionDate = advert.CarProductionDate;
                 entity.Condition = (Models.ConditionState)advert.Condition;
                 entity.Title = advert.Title;
@@ -167,8 +182,15 @@ namespace AutoStonks.API.Services.AdvertService
                 entity.TransmissionType = (Models.TransmissionTypes)advert.TransmissionType;
                 entity.VIN = advert.VIN;
                 entity.PhoneNumber = advert.PhoneNumber;
+
+                var aeEntity = _context.AdvertEquipment.Where(a => a.AdvertId == entity.Id).ToList();
+                _context.AdvertEquipment.RemoveRange(aeEntity);
+                foreach (var ae in advert.AdvertEquipments)
+                {
+                    entity.AdvertEquipments.Add(_mapper.Map<AdvertEquipment>(ae));
+                }
                 _context.SaveChanges();
-                serviceResponse.Data = entity;
+                serviceResponse.Data = _mapper.Map<Advert>(entity);
             }
             catch (Exception ex)
             {

@@ -38,9 +38,14 @@ namespace AutoStonks.API
             CreateMap<GetGenerationDto, Generation>();
             CreateMap<AddGenerationDto, Generation>();
             CreateMap<AddAdvertDto, Advert>();
+            CreateMap<UpdateAdvertDto, Advert>();
+            CreateMap<Advert, UpdateAdvertDto>();
             CreateMap<Advert, GetAdvertBasicInfoDto>();
             CreateMap<Advert, GetAdvertFullInfoDto>();
             CreateMap<List<AddAdvertEquipmentDto>, List<AdvertEquipment>>();
+            CreateMap<AddAdvertEquipmentDto, AdvertEquipment>();
+            CreateMap<AdvertEquipment, AddAdvertEquipmentDto>();
+            CreateMap<List<AdvertEquipment>, List<AddAdvertEquipmentDto>>();
             CreateMap<AdvertEquipment, PlainAdvertEquipmentDto>();
             CreateMap<AddPaymentDto, Payment>();
             CreateMap<UpdatePaymentDto, Payment>();
