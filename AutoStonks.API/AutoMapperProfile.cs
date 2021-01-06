@@ -12,6 +12,7 @@ using AutoStonks.API.Dtos.Generation;
 using AutoStonks.API.Dtos.Advert;
 using AutoStonks.API.Dtos.AdvertEquipment;
 using AutoStonks.API.Dtos.Payment;
+using AutoStonks.API.Dtos.Photo;
 
 namespace AutoStonks.API
 {
@@ -56,6 +57,7 @@ namespace AutoStonks.API
             CreateMap<PlainGenerationDto, Generation>();
             CreateMap<PlainBrandDto, Brand>();
             CreateMap<PlainModelDto, Model>();
+            CreateMap<AddPhotosDto, Photo>();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using AutoStonks.API.Dtos.Advert;
 using AutoStonks.API.Dtos.AdvertEquipment;
+using AutoStonks.API.Dtos.Photo;
 using AutoStonks.API.Models;
 using AutoStonks.API.Services.AdvertEquipmentService;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +35,14 @@ namespace AutoStonks.API.Services.AdvertService
                     entity.AdvertId = ae.AdvertId;
                     entity.EquipmentId = ae.EquipmentId;
                     advert.AdvertEquipments.Add(_mapper.Map<AdvertEquipment>(entity));
+                }
+                foreach (var photo in newAdvert.Photos)
+                {
+                    var entity = new AddPhotosDto();
+                    entity.AdvertId = photo.AdvertId;
+                    entity.Source = photo.Source;
+                    entity.Name = photo.Name;
+                    advert.Photos.Add(_mapper.Map<Photo>(entity));
                 }
                 _context.Adverts.Add(advert);
                 _context.SaveChanges();
@@ -71,7 +80,6 @@ namespace AutoStonks.API.Services.AdvertService
             ServiceResponse<List<GetAdvertBasicInfoDto>> serviceResponse = new ServiceResponse<List<GetAdvertBasicInfoDto>>();
             try
             {
-
                 serviceResponse.Data = _context.Adverts
                     .Include(a => a.Generation)
                         .ThenInclude(g => g.Model)
@@ -128,7 +136,11 @@ namespace AutoStonks.API.Services.AdvertService
             ServiceResponse<GetAdvertBasicInfoDto> serviceResponse = new ServiceResponse<GetAdvertBasicInfoDto>();
             try
             {
-                serviceResponse.Data = _mapper.Map<GetAdvertBasicInfoDto>(_context.Adverts.Include(a => a.Generation).ThenInclude(g => g.Model).ThenInclude(m => m.Brand).FirstOrDefault(a => a.Id == idAdvert));
+                var entity = _context.Adverts.Include(a => a.Generation).ThenInclude(g => g.Model).ThenInclude(m => m.Brand).FirstOrDefault(a => a.Id == idAdvert);
+                var temp = entity.Photos[0];
+                entity.Photos.Clear();
+                entity.Photos.Add(temp);
+                serviceResponse.Data = _mapper.Map<GetAdvertBasicInfoDto>(entity);
             }
             catch (Exception ex)
             {
@@ -188,6 +200,12 @@ namespace AutoStonks.API.Services.AdvertService
                 foreach (var ae in advert.AdvertEquipments)
                 {
                     entity.AdvertEquipments.Add(_mapper.Map<AdvertEquipment>(ae));
+                }
+                var photoEntity = _context.Photos.Where(a => a.AdvertId == entity.Id).ToList();
+                _context.AdvertEquipment.RemoveRange(aeEntity);
+                foreach (var photo in advert.Photos)
+                {
+                    entity.Photos.Add(_mapper.Map<Photo>(photo));
                 }
                 _context.SaveChanges();
                 serviceResponse.Data = _mapper.Map<Advert>(entity);

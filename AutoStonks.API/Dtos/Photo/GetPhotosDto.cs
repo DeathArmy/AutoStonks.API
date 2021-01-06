@@ -7,6 +7,7 @@ namespace AutoStonks.API.Dtos.Photo
 {
     public class GetPhotosDto
     {
-        public string URL { get; set; }
+        public string Name { get; set; }
+        public string Source { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoStonks.API.Dtos.Generation;
+using AutoStonks.API.Dtos.Photo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +42,6 @@ namespace AutoStonks.API.Dtos.Advert
         public string Location { get; set; }
         public int GenerationId { get; set; }
         public PlainGenerationDto Generation { get; set; }
-        public List<Models.Photo> Photos { get; set; }
+        public List<AddPhotosDto> Photos { get; set; }
     }
 }
