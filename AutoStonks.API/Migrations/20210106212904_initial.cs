@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AutoStonks.API.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -143,26 +143,6 @@ namespace AutoStonks.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Packages",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    GenerationId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Packages", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Packages_Generations_GenerationId",
-                        column: x => x.GenerationId,
-                        principalTable: "Generations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AdvertEquipment",
                 columns: table => new
                 {
@@ -216,7 +196,8 @@ namespace AutoStonks.API.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    URL = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Source = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AdvertId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -357,11 +338,6 @@ namespace AutoStonks.API.Migrations
                 column: "BrandId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Packages_GenerationId",
-                table: "Packages",
-                column: "GenerationId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Payments_AdvertId",
                 table: "Payments",
                 column: "AdvertId");
@@ -376,9 +352,6 @@ namespace AutoStonks.API.Migrations
         {
             migrationBuilder.DropTable(
                 name: "AdvertEquipment");
-
-            migrationBuilder.DropTable(
-                name: "Packages");
 
             migrationBuilder.DropTable(
                 name: "Payments");

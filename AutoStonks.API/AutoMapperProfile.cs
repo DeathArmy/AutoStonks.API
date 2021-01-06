@@ -58,6 +58,9 @@ namespace AutoStonks.API
             CreateMap<PlainBrandDto, Brand>();
             CreateMap<PlainModelDto, Model>();
             CreateMap<AddPhotosDto, Photo>();
+            CreateMap<Photo, AddPhotosDto>();
+            CreateMap<Photo, GetPhotosDto>();
+            CreateMap<GetPhotosDto, Photo>();
         }
     }
 }

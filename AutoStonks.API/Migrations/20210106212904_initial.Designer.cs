@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoStonks.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201207223251_Initial")]
-    partial class Initial
+    [Migration("20210106212904_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -508,26 +508,6 @@ namespace AutoStonks.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("AutoStonks.API.Models.Package", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<int>("GenerationId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GenerationId");
-
-                    b.ToTable("Packages");
-                });
-
             modelBuilder.Entity("AutoStonks.API.Models.Payment", b =>
                 {
                     b.Property<int>("Id")
@@ -570,7 +550,10 @@ namespace AutoStonks.API.Migrations
                     b.Property<int>("AdvertId")
                         .HasColumnType("int");
 
-                    b.Property<string>("URL")
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Source")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -715,17 +698,6 @@ namespace AutoStonks.API.Migrations
                     b.Navigation("Brand");
                 });
 
-            modelBuilder.Entity("AutoStonks.API.Models.Package", b =>
-                {
-                    b.HasOne("AutoStonks.API.Models.Generation", "Generation")
-                        .WithMany("Versions")
-                        .HasForeignKey("GenerationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Generation");
-                });
-
             modelBuilder.Entity("AutoStonks.API.Models.Payment", b =>
                 {
                     b.HasOne("AutoStonks.API.Models.Advert", "Advert")
@@ -765,11 +737,6 @@ namespace AutoStonks.API.Migrations
             modelBuilder.Entity("AutoStonks.API.Models.Equipment", b =>
                 {
                     b.Navigation("AdvertEquipments");
-                });
-
-            modelBuilder.Entity("AutoStonks.API.Models.Generation", b =>
-                {
-                    b.Navigation("Versions");
                 });
 
             modelBuilder.Entity("AutoStonks.API.Models.Model", b =>
