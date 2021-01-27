@@ -82,7 +82,7 @@ namespace AutoStonks.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddAdvert(AddPaymentDto newAdvert)
         {
-            ServiceResponse<Payment> response = await _advertService.AddAdvert(newAdvert);
+            ServiceResponse<GetPaymentDto> response = await _advertService.AddAdvert(newAdvert);
             if (response.Data == null)
             {
                 return NotFound(response);

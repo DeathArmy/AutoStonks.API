@@ -5,6 +5,7 @@ using AutoStonks.API.Dtos.Payment;
 using AutoStonks.API.Dtos.Photo;
 using AutoStonks.API.Models;
 using AutoStonks.API.Services.AdvertEquipmentService;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -22,9 +23,9 @@ namespace AutoStonks.API.Services.AdvertService
             _mapper = mapper;
             _context = context;
         }
-        public async Task<ServiceResponse<Payment>> AddAdvert(AddPaymentDto newAdvert)
+        public async Task<ServiceResponse<GetPaymentDto>> AddAdvert(AddPaymentDto newAdvert)
         {
-            ServiceResponse<Payment> serviceResponse = new ServiceResponse<Payment>();
+            ServiceResponse<GetPaymentDto> serviceResponse = new ServiceResponse<GetPaymentDto>();
             try
             {
                 var advert = new Advert();
@@ -42,10 +43,11 @@ namespace AutoStonks.API.Services.AdvertService
                 payment.DurationInDays = newAdvert.DurationInDays;
                 payment.AdvertId = advert.Id;
                 payment.PaymentInitiation = DateTime.Now;
-                payment.Price = _context.Database.ExecuteSqlRaw($"exec payment_procedure {advert.UserId}, {newAdvert.DurationInDays}, {advert.IsPromoted}");
                 _context.Payments.Add(payment);
                 _context.SaveChanges();
-                serviceResponse.Data = payment;
+                _context.Database.ExecuteSqlRaw($"exec payment_procedure {advert.UserId}, {newAdvert.DurationInDays}, {(advert.IsPromoted ? 1 : 0)}, {payment.Id}");
+                _context.Entry(payment).Reload();
+                serviceResponse.Data = _mapper.Map<GetPaymentDto>(payment);
             }
             catch (Exception ex)
             {
@@ -196,12 +198,14 @@ namespace AutoStonks.API.Services.AdvertService
 
                 var aeEntity = _context.AdvertEquipment.Where(a => a.AdvertId == entity.Id).ToList();
                 _context.AdvertEquipment.RemoveRange(aeEntity);
+                if (entity.AdvertEquipments == null) entity.AdvertEquipments = new List<AdvertEquipment>();
                 foreach (var ae in advert.AdvertEquipments)
                 {
                     entity.AdvertEquipments.Add(_mapper.Map<AdvertEquipment>(ae));
                 }
                 var photoEntity = _context.Photos.Where(a => a.AdvertId == entity.Id).ToList();
                 _context.AdvertEquipment.RemoveRange(aeEntity);
+                if (entity.Photos == null) entity.Photos = new List<Photo>();
                 foreach (var photo in advert.Photos)
                 {
                     entity.Photos.Add(_mapper.Map<Photo>(photo));

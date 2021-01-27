@@ -51,6 +51,7 @@ namespace AutoStonks.API
             CreateMap<AddPaymentDto, Payment>();
             CreateMap<UpdatePaymentDto, Payment>();
             CreateMap<Payment, GetPaymentDto>();
+            CreateMap<GetPaymentDto, Payment>();
             CreateMap<Generation, PlainGenerationDto>();
             CreateMap<Brand, PlainBrandDto>();
             CreateMap<Model, PlainModelDto>();

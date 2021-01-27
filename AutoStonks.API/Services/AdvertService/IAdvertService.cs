@@ -10,7 +10,7 @@ namespace AutoStonks.API.Services.AdvertService
 {
     public interface IAdvertService
     {
-        public Task<ServiceResponse<Payment>> AddAdvert(AddPaymentDto newAdvert);
+        public Task<ServiceResponse<GetPaymentDto>> AddAdvert(AddPaymentDto newAdvert);
         public Task<ServiceResponse<List<Advert>>> DeleteAdvert(int idAdvert);
         public Task<ServiceResponse<string>> UpdateAdvert(UpdateAdvertDto advert);
         public Task<ServiceResponse<List<GetAdvertBasicInfoDto>>> GetAllActiveBasicInfo();
