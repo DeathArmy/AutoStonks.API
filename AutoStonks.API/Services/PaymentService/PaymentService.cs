@@ -71,13 +71,19 @@ namespace AutoStonks.API.Services.PaymentService
             ServiceResponse<Payment> serviceResponse = new ServiceResponse<Payment>();
             try
             {
-                var updatedPayment = _context.Payments.FirstOrDefault(p => p.Id == updatePayment.Id);
-                updatedPayment.PaymentInitiation = updatePayment.PaymentInitiation;
-                updatedPayment.PaymentTermination = updatedPayment.PaymentTermination;
-                updatedPayment.Price = updatedPayment.Price;
-                updatedPayment.StartDate = updatedPayment.StartDate;
-                _context.SaveChanges();
-                serviceResponse.Data = updatedPayment;
+                var updatedPayment = _context.Payments.First(p => p.Id == updatePayment.Id);
+                if (updatePayment.isTerminated)
+                {
+                    updatedPayment.PaymentTermination = DateTime.Now;
+                    updatedPayment.StartDate = DateTime.Now;
+                    _context.SaveChanges();
+                    serviceResponse.Data = updatedPayment;
+                }
+                else
+                {
+                    serviceResponse.Data = null;
+                }
+                
             }
             catch (Exception ex)
             {

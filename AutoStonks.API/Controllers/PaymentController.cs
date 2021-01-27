@@ -50,7 +50,7 @@ namespace AutoStonks.API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateModel(UpdatePaymentDto updatePayment)
+        public async Task<IActionResult> UpdatePayment(UpdatePaymentDto updatePayment)
         {
             ServiceResponse<Payment> response = await _paymentService.UpdatePayment(updatePayment);
             if (response.Data == null)

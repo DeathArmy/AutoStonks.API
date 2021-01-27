@@ -1,4 +1,5 @@
 ﻿using AutoStonks.API.Dtos.Advert;
+using AutoStonks.API.Dtos.Payment;
 using AutoStonks.API.Models;
 using AutoStonks.API.Services.AdvertService;
 using Microsoft.AspNetCore.Mvc;
@@ -79,9 +80,9 @@ namespace AutoStonks.API.Controllers
             return Ok(response);
         }
         [HttpPost]
-        public async Task<IActionResult> AddAdvert(AddAdvertDto newAdvert)
+        public async Task<IActionResult> AddAdvert(AddPaymentDto newAdvert)
         {
-            ServiceResponse<Advert> response = await _advertService.AddAdvert(newAdvert);
+            ServiceResponse<Payment> response = await _advertService.AddAdvert(newAdvert);
             if (response.Data == null)
             {
                 return NotFound(response);
@@ -98,11 +99,10 @@ namespace AutoStonks.API.Controllers
             }
             return Ok(response);
         }
-
         [HttpPut]
         public async Task<IActionResult> UpdateAdvert(UpdateAdvertDto advert)
         {
-            ServiceResponse<Advert> response = await _advertService.UpdateAdvert(advert);
+            ServiceResponse<string> response = await _advertService.UpdateAdvert(advert);
             if (response.Data == null)
             {
                 return NotFound(response);

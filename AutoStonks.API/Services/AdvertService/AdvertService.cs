@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using AutoStonks.API.Dtos.Advert;
 using AutoStonks.API.Dtos.AdvertEquipment;
+using AutoStonks.API.Dtos.Payment;
 using AutoStonks.API.Dtos.Photo;
 using AutoStonks.API.Models;
 using AutoStonks.API.Services.AdvertEquipmentService;
@@ -21,15 +22,14 @@ namespace AutoStonks.API.Services.AdvertService
             _mapper = mapper;
             _context = context;
         }
-        public async Task<ServiceResponse<Advert>> AddAdvert(AddAdvertDto newAdvert)
+        public async Task<ServiceResponse<Payment>> AddAdvert(AddPaymentDto newAdvert)
         {
-            ServiceResponse<Advert> serviceResponse = new ServiceResponse<Advert>();
+            ServiceResponse<Payment> serviceResponse = new ServiceResponse<Payment>();
             try
             {
                 var advert = new Advert();
-                advert = _mapper.Map<Advert>(newAdvert);
-
-                foreach (var ae in newAdvert.AdvertEquipments)
+                advert = _mapper.Map<Advert>(newAdvert.Advert);
+                foreach (var ae in newAdvert.Advert.AdvertEquipments)
                 {
                     var entity = new AddAdvertEquipmentDto();
                     entity.AdvertId = ae.AdvertId;
@@ -38,8 +38,14 @@ namespace AutoStonks.API.Services.AdvertService
                 }
                 _context.Adverts.Add(advert);
                 _context.SaveChanges();
-                serviceResponse.Data = _context.Adverts.FirstOrDefault(a => a.VIN == newAdvert.VIN);
-                
+                var payment = new Payment();
+                payment.DurationInDays = newAdvert.DurationInDays;
+                payment.AdvertId = advert.Id;
+                payment.PaymentInitiation = DateTime.Now;
+                payment.Price = _context.Database.ExecuteSqlRaw($"exec payment_procedure {advert.UserId}, {newAdvert.DurationInDays}, {advert.IsPromoted}");
+                _context.Payments.Add(payment);
+                _context.SaveChanges();
+                serviceResponse.Data = payment;
             }
             catch (Exception ex)
             {
@@ -162,9 +168,9 @@ namespace AutoStonks.API.Services.AdvertService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<Advert>> UpdateAdvert(UpdateAdvertDto advert)
+        public async Task<ServiceResponse<string>> UpdateAdvert(UpdateAdvertDto advert)
         {
-            ServiceResponse<Advert> serviceResponse = new ServiceResponse<Advert>();
+            ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             try
             {
                 Advert entity = _context.Adverts.Include(ae => ae.AdvertEquipments).FirstOrDefault(a => a.Id == advert.Id);
@@ -181,7 +187,6 @@ namespace AutoStonks.API.Services.AdvertService
                 entity.Horsepower = advert.Horsepower;
                 entity.Location = advert.Location;
                 entity.Mileage = advert.Mileage;
-                entity.Photos = advert.Photos;
                 entity.PlateNumber = advert.PlateNumber;
                 entity.Price = advert.Price;
                 entity.State = (Models.States)advert.State;
@@ -202,7 +207,7 @@ namespace AutoStonks.API.Services.AdvertService
                     entity.Photos.Add(_mapper.Map<Photo>(photo));
                 }
                 _context.SaveChanges();
-                serviceResponse.Data = _mapper.Map<Advert>(entity);
+                serviceResponse.Data = "wykonano";
             }
             catch (Exception ex)
             {
@@ -219,6 +224,7 @@ namespace AutoStonks.API.Services.AdvertService
                 List<Advert> adverts = _context.Adverts.Include(g => g.Generation)
                     .ThenInclude(m => m.Model)
                         .ThenInclude(b => b.Brand)
+                    .Include(p => p.Photos)
                     .ToList();
                 if (query.VIN != null) adverts = adverts.Where(a => a.VIN == query.VIN).ToList();//co gdy wpiszemy część VINu?
                 if (query.MinPrice > 0)
