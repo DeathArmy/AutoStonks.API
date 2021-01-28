@@ -107,12 +107,19 @@ namespace AutoStonks.API.Services.AdvertService
             ServiceResponse<List<GetAdvertBasicInfoDto>> serviceResponse = new ServiceResponse<List<GetAdvertBasicInfoDto>>();
             try
             {
-                serviceResponse.Data = _context.Adverts
-                    .Include(a => a.Generation)
-                        .ThenInclude(g => g.Model)
-                            .ThenInclude(m => m.Brand)
-                    .Where(a => a.IsPromoted == true)
-                    .Select(a => _mapper.Map<GetAdvertBasicInfoDto>(a)).ToList();
+                List<Advert> entity = _context.Adverts.Include(a => a.Generation).ThenInclude(g => g.Model).ThenInclude(m => m.Brand).Where(a => a.IsPromoted == true).Include(p => p.Photos).ToList();
+                List<Advert> response = new List<Advert>();
+                foreach (Advert advert in entity)
+                {
+                    if (advert.Photos != null)
+                    {
+                        var temporary = advert.Photos.FirstOrDefault();
+                        advert.Photos.Clear();
+                        advert.Photos.Add(temporary);
+                    }
+                    response.Add(advert);
+                }
+                serviceResponse.Data = _mapper.Map<List<GetAdvertBasicInfoDto>>(response);
             }
             catch (Exception ex)
             {
