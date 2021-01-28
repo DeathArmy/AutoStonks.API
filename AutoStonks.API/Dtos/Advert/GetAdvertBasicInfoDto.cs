@@ -29,6 +29,7 @@ namespace AutoStonks.API.Dtos.Advert
             Undamaged
         }
         public int Id { get; set; }
+        public int UserId { get; set; }
         public bool IsPromoted { get; set; }
         public States State { get; set; }
         public double Price { get; set; }
