@@ -41,6 +41,7 @@ namespace AutoStonks.API.Dtos.Advert
         public string Title { get; set; }
         public int Displacement { get; set; }
         public string Location { get; set; }
+        public int VisitCount { get; set; }
         public int GenerationId { get; set; }
         public PlainGenerationDto Generation { get; set; }
         public List<AddPhotosDto> Photos { get; set; }

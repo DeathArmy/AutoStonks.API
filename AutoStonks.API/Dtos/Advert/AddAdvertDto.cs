@@ -40,6 +40,7 @@ namespace AutoStonks.API.Dtos.Advert
             Manual
         }
         public int UserId { get; set; }
+        public bool IsPromoted { get; set; }
         public string Description { get; set; }
         public string VIN { get; set; }
         public DateTime FirstRegistrationDate { get; set; }
@@ -60,7 +61,7 @@ namespace AutoStonks.API.Dtos.Advert
         public int VisitCount { get; set; }
         public int GenerationId { get; set; }
         public string PhoneNumber { get; set; }
-        public List<Models.Photo> Photos { get; set; } // jak to zrobić?
+        public List<Models.Photo> Photos { get; set; }
         public List<AddAdvertEquipmentDto> AdvertEquipments { get; set; }
     }
 }

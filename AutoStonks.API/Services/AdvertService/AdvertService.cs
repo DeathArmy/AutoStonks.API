@@ -107,7 +107,7 @@ namespace AutoStonks.API.Services.AdvertService
             ServiceResponse<List<GetAdvertBasicInfoDto>> serviceResponse = new ServiceResponse<List<GetAdvertBasicInfoDto>>();
             try
             {
-                List<Advert> entity = _context.Adverts.Include(a => a.Generation).ThenInclude(g => g.Model).ThenInclude(m => m.Brand).Where(a => a.IsPromoted == true && a.State != States.Terminate).Include(p => p.Photos).ToList();
+                List<Advert> entity = _context.Adverts.Include(a => a.Generation).ThenInclude(g => g.Model).ThenInclude(m => m.Brand).Where(a => a.IsPromoted == true && a.State != States.Terminated).Include(p => p.Photos).ToList();
                 List<Advert> response = new List<Advert>();
                 foreach (Advert advert in entity)
                 {
